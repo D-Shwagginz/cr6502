@@ -1,9 +1,9 @@
 class CPU
-  private def jmp(m_value : UInt16)
+   def jmp(m_value : UInt16)
     @program_counter = m_value
   end
 
-  private def jsr(address : UInt16)
+   def jsr(address : UInt16)
     t = @program_counter - 1
     @stack_pointer -= 1
     poke(@stack_pointer.to_i + 0x100, t)
@@ -11,13 +11,13 @@ class CPU
     @program_counter = address.to_u16
   end
 
-  private def rts
+   def rts
     @stack_pointer += 1
     @program_counter = peek(@stack_pointer, true).to_u16 + 1
     @stack_pointer += 1
   end
 
-  private def rti
+   def rti
     @stack_pointer += 1
     @flags = peek(@stack_pointer.to_i + 0x100).to_u8
     @stack_pointer += 1

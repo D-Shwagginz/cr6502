@@ -1,23 +1,23 @@
 class CPU
-  private def and(m_value : UInt8)
+   def and(m_value : UInt8)
     @accumulator = @accumulator & m_value
     set_flag(Flags::Negative, @accumulator.bit(7) == 1)
     set_flag(Flags::Zero, @accumulator == 0)
   end
 
-  private def eor(m_value : UInt8)
+   def eor(m_value : UInt8)
     @accumulator = @accumulator ^ m_value
     set_flag(Flags::Negative, @accumulator.bit(7) == 1)
     set_flag(Flags::Zero, @accumulator == 0)
   end
 
-  private def ora(m_value : UInt8)
+   def ora(m_value : UInt8)
     @accumulator = @accumulator | m_value
     set_flag(Flags::Negative, @accumulator.bit(7) == 1)
     set_flag(Flags::Zero, @accumulator == 0)
   end
 
-  private def asl(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = false)
+   def asl(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = false)
     set_flag(Flags::Carry, m_value.bit(7) == 1)
     if accumulator
       @accumulator = ((@accumulator << 1) & 0xfe)
@@ -28,7 +28,7 @@ class CPU
     set_flag(Flags::Zero, m_value == 0)
   end
 
-  private def lsr(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = false)
+   def lsr(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = false)
     set_flag(Flags::Negative, false)
     set_flag(Flags::Carry, m_value.bit(0) == 1)
 
@@ -41,7 +41,7 @@ class CPU
     set_flag(Flags::Zero, m_value == 0)
   end
 
-  private def rol(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = false)
+   def rol(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = false)
     t = m_value.bit(7)
 
     if accumulator
@@ -57,7 +57,7 @@ class CPU
     set_flag(Flags::Negative, m_value.bit(7) == 1)
   end
 
-  private def ror(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = false)
+   def ror(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = false)
     t = m_value.bit(0) == 1
     @accumulator = (m_value >> 1) & 0x7f
     @accumulator = m_value | (get_flag(Flags::Carry) ? 0x80 : 0x00)

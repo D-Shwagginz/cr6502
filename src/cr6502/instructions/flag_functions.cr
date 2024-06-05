@@ -1,29 +1,29 @@
 class CPU
-  private def clc
+   def clc
     set_flag(Flags::Carry, false)
   end
 
-  private def sec
+   def sec
     set_flag(Flags::Carry, true)
   end
 
-  private def cli
+   def cli
     set_flag(Flags::InterruptDisable, false)
   end
 
-  private def sei
+   def sei
     set_flag(Flags::InterruptDisable, true)
   end
 
-  private def cld
+   def cld
     set_flag(Flags::DecimalMode, false)
   end
 
-  private def sed
+   def sed
     set_flag(Flags::DecimalMode, true)
   end
 
-  private def clv
+   def clv
     set_flag(Flags::Overflow, false)
   end
 end

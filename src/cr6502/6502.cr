@@ -71,23 +71,23 @@ class CPU
     end
   end
 
-  private def bcd(byte : UInt8 | Int8)
+   def bcd(byte : UInt8 | Int8)
     tens = byte.bits(4..7)
     ones = byte.bits(0..3)
     return "#{tens}#{ones}".to_u8
   end
 
-  private def poke(mem_location : Int, data : UInt8 | UInt16)
+   def poke(mem_location : Int, data : UInt8 | UInt16)
     @memory.pos = mem_location
     @memory.write_bytes(data, IO::ByteFormat::LittleEndian)
   end
 
-  private def peek(mem_location : Int, two_byte : Bool = false)
+   def peek(mem_location : Int, two_byte : Bool = false)
     @memory.pos = mem_location
     return two_byte ? @memory.read_bytes(UInt16, IO::ByteFormat::LittleEndian) : @memory.read_bytes(UInt8, IO::ByteFormat::LittleEndian)
   end
 
-  private def get_flag(flag : Flags) : Bool
+   def get_flag(flag : Flags) : Bool
     case flag
     when Flags::Negative
       return true if @flags.bit(7) == 1
@@ -108,7 +108,7 @@ class CPU
     return false
   end
 
-  private def set_flag(flag : Flags, set : Bool)
+   def set_flag(flag : Flags, set : Bool)
     if set
       case flag
       when Flags::Negative

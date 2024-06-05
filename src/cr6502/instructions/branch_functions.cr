@@ -1,5 +1,5 @@
 class CPU
-  private def bpl(m_value : UInt8)
+   def bpl(m_value : UInt8)
     if get_flag(Flags::Negative) == false
       u_m_value = (m_value - 128).to_i8
 
@@ -9,7 +9,7 @@ class CPU
     end
   end
 
-  private def bvc(m_value : UInt8)
+   def bvc(m_value : UInt8)
     if get_flag(Flags::Overflow) == false
       u_m_value = (m_value - 128).to_i8
 
@@ -19,7 +19,7 @@ class CPU
     end
   end
 
-  private def bcc(m_value : Int)
+   def bcc(m_value : Int)
     if get_flag(Flags::Carry) == false
       u_m_value = (m_value - 128).to_i8
 
@@ -29,7 +29,7 @@ class CPU
     end
   end
 
-  private def bne(m_value : Int)
+   def bne(m_value : Int)
     if get_flag(Flags::Zero) == false
       u_m_value = (m_value - 128).to_i8
 
@@ -39,7 +39,7 @@ class CPU
     end
   end
 
-  private def bmi(m_value : UInt8)
+   def bmi(m_value : UInt8)
     if get_flag(Flags::Negative) == true
       u_m_value = (m_value - 128).to_i8
 
@@ -49,7 +49,7 @@ class CPU
     end
   end
 
-  private def bvs(m_value : Int)
+   def bvs(m_value : Int)
     if get_flag(Flags::Overflow) == true
       u_m_value = (m_value - 128).to_i8
 
@@ -59,7 +59,7 @@ class CPU
     end
   end
 
-  private def bcs(m_value : Int)
+   def bcs(m_value : Int)
     if get_flag(Flags::Carry) == true
       u_m_value = (m_value - 128).to_i8
 
@@ -69,7 +69,7 @@ class CPU
     end
   end
 
-  private def beq(m_value : Int)
+   def beq(m_value : Int)
     if get_flag(Flags::Zero) == true
       u_m_value = (m_value - 128).to_i8
 

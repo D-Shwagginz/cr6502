@@ -166,12 +166,12 @@ class CPU
     {"INCabsx", 0xfe_u8, 7},
   ]
 
-  private def add_instruction(hex : UInt8 | UInt16)
+   def add_instruction(hex : UInt8 | UInt16)
     poke(@program_counter, hex)
     @program_counter += hex.is_a?(UInt8) ? 1 : 2
   end
 
-  private def run_instruction
+   def run_instruction
     instruction = peek(@program_counter)
     @program_counter += 1_u16
 

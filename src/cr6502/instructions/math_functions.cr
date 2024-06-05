@@ -1,5 +1,5 @@
 class CPU
-  private def adc(m_value : UInt8)
+   def adc(m_value : UInt8)
     t = @accumulator + m_value + get_flag(Flags::Carry).to_unsafe
     set_flag(Flags::Overflow, @accumulator.bit(7) != t.bit(7))
     set_flag(Flags::Negative, @accumulator.bit(7) == 1)
@@ -15,7 +15,7 @@ class CPU
     @accumulator = t & 0xff
   end
 
-  private def sbc(m_value : UInt8)
+   def sbc(m_value : UInt8)
     if get_flag(Flags::DecimalMode)
       t = bcd(@accumulator) - bcd(m_value) - (get_flag(Flags::Carry) ? 0 : 1)
       set_flag(Flags::Overflow, t > 99 || t < 0)
