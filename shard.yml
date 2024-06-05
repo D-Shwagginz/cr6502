@@ -1,0 +1,13 @@
+name: cr6502
+version: 0.1.0
+
+authors:
+  - your-name-here <your-email-here>
+
+targets:
+  cr6502:
+    main: src/cr6502.cr
+
+crystal: '>= 1.12.1'
+
+license: MIT
