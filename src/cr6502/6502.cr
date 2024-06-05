@@ -1,8 +1,18 @@
 class CPU
+  # Vector address for RESET
   RES_LOCATION = 0xfffc_u16
+  # Vector address for BRK
   BRK_LOCATION = 0xfffe_u16
 
+  # The flags of the cpu
   enum Flags
+    # The Sign Flag
+    # Sign Flag serves TWO purposes
+    # 1) 	To signify the sigN of the last mathematical or bitwise operation.
+    # 	The sign is the bit-7 of the result value.
+    # 	If the last operation was not a signed operation, P.N will still reflect bit-7 of the result, but will NOT be considered as a sign.
+    # 2) 	As a result store for a `BIT` instruction:
+    # 	The `BIT` instruction reads the contents of the specified memory address and copies bit-7 of that value to P.N
     Negative
     Overflow
     Break
