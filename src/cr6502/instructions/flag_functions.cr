@@ -1,29 +1,36 @@
 class CPU
-   def clc
+  # Clear Carry
+  def clc
     set_flag(Flags::Carry, false)
   end
 
-   def sec
+  # Set Carry
+  def sec
     set_flag(Flags::Carry, true)
   end
 
-   def cli
+  # Clear Interrupt
+  def cli
     set_flag(Flags::InterruptDisable, false)
   end
 
-   def sei
+  # Set Interrupt
+  def sei
     set_flag(Flags::InterruptDisable, true)
   end
 
-   def cld
+  # Clear Decimal
+  def cld
     set_flag(Flags::DecimalMode, false)
   end
 
-   def sed
+  # Set Decimal
+  def sed
     set_flag(Flags::DecimalMode, true)
   end
 
-   def clv
+  # Clear Overflow
+  def clv
     set_flag(Flags::Overflow, false)
   end
 end

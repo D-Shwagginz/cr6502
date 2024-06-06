@@ -1,4 +1,5 @@
 class CPU
+  # Parses the address mode of the current line of code
   macro parse_address_mode
     current_index += 1
     if scanner.tokens[current_index].type == TokenType::A
@@ -17,7 +18,7 @@ class CPU
           current_index += 2
           address_mode = AddressModes::ZeroPageY
         elsif scanner.tokens[current_index+1].type == TokenType::EOF
-          address_mode = AddressModes::Absolute
+          address_mode = AddressModes::ZeroPage
         end
       elsif address.bit_length <= 16
         if scanner.tokens[current_index+1].type == TokenType::Comma && scanner.tokens[current_index+2].type == TokenType::X
@@ -54,27 +55,63 @@ class CPU
     end
   end
 
+  # Parses the address of the line of code
   macro parse_address
     if scanner.tokens[current_index].type == TokenType::Dollar
       current_index += 1
       address = scanner.tokens[current_index].literal.as(Int32)
+      address = (address <= 255 ? address.to_u8 : address.to_u16)
     elsif scanner.tokens[current_index].type == TokenType::Percent
       current_index += 1
       address = scanner.tokens[current_index].literal.as(Int32)
+      address = (address <= 255 ? address.to_u8 : address.to_u16)
     else
         address = scanner.tokens[current_index].literal.as(Int32)
+        address = (address <= 255 ? address.to_u8 : address.to_u16)
     end
   end
 
+  # Loads 6502 assembly instructions
+  # 
+  # Works with labels `label:`
+  # 
+  # the `resvec:` label will set the value at `RES_LOCATION` to the label's memory location
+  # 
+  # the `brkvec:` label will set the value at `BRK_LOCATION` to the label's memory location
   def load_asm(code : String)
     code.each_line.with_index do |line, line_number|
-      scanner = Scanner.new(line, line_number)
-      scanner.scan_tokens
       current_index = 0
+
+      # Scan Labels
+      scanner = Scanner.new(line, line_number, @labels)
+      scanner.scan_tokens
+
+      until current_index == scanner.tokens.size - 1
+        if scanner.tokens[current_index].type == TokenType::Label
+          label_name = scanner.tokens[current_index].lexeme.rchop
+          if label_name == "resvec"
+            poke(RES_LOCATION, @program_counter)
+          elsif label_name == "brkvec"
+            poke(BRK_LOCATION, @program_counter)
+          else
+          label_i = @labels.index { |l| l[0] == label_name }
+          if label_i
+            @labels[label_i] = {label_name, (@program_counter <= 255 ? @program_counter.to_u8 : @program_counter.to_u16)}
+          else
+            @labels << {label_name, (@program_counter <= 255 ? @program_counter.to_u8 : @program_counter.to_u16)}
+          end
+        end
+        end
+
+        current_index += 1
+      end
+      current_index = 0
+      scanner = Scanner.new(line, line_number, @labels)
+      scanner.scan_tokens
 
       until current_index == scanner.tokens.size - 1
         address_mode = nil
-        address : Int32 = 0
+        address : Int32 | UInt16 | UInt8 = -1
 
         case scanner.tokens[current_index].type
         # -------------------------- #
@@ -383,10 +420,32 @@ class CPU
 
         when TokenType::BRK; add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BRK" }[1])
         when TokenType::NOP; add_instruction(INSTRUCTIONS.find! { |i| i[0] == "NOP" }[1])
+          # ------------------------- #
+          # -- CUSTOM INSTRUCTIONS -- #
+          # ------------------------- #
+
+        when TokenType::PRT
+          parse_address_mode
+          if address <= 255
+            add_instruction(INSTRUCTIONS.find! { |i| i[0] == "PRTzpg" }[1])
+          else
+            add_instruction(INSTRUCTIONS.find! { |i| i[0] == "PRTabs" }[1])
+          end
+        when TokenType::LOG; add_instruction(INSTRUCTIONS.find! { |i| i[0] == "LOG" }[1])
+        when TokenType::Label
+        else
+          raise ScannerException.new("Invalid command \"#{line}\" on line ##{line_number}")
         end
 
-        poke(@program_counter, address.to_u8) if address <= 255
-        poke(@program_counter, address.to_u16) if address > 255
+        if address >= 0
+          if address <= 255
+            poke(@program_counter, address.to_u8)
+            @program_counter += 1
+          else
+            poke(@program_counter, address.to_u16)
+            @program_counter += 2
+          end
+        end
 
         current_index += 1
       end

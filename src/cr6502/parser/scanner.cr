@@ -1,7 +1,9 @@
 class CPU
+  # The scanner for parsing
   class Scanner
     @source : String
     property tokens : Array(Token) = [] of Token
+    property labels : Array(Tuple(String, UInt8 | UInt16))
 
     @start = 0
     @current = 0
@@ -9,7 +11,7 @@ class CPU
     # 0 = decimal, 1 = hex, 2 = binary
     @current_number_type = 0
 
-    def initialize(@source : String, @line : Int32)
+    def initialize(@source : String, @line : Int32, @labels : Array(Tuple(String, Int)))
     end
 
     def is_at_end
@@ -17,6 +19,7 @@ class CPU
     end
 
     def scan_tokens
+      @source = @source.strip
       until is_at_end
         @start = @current
         scan_token
@@ -54,6 +57,17 @@ class CPU
     end
 
     def scan_token
+      if @source[0] == ';'
+        @current = @source.size - 1
+        return
+      end
+
+      if @source[-1] == ':'
+        @current = @source.size - 1
+        add_token(TokenType::Label)
+        return
+      end
+
       c = advance
       if @current_number_type != 0
         case @current_number_type
@@ -66,6 +80,7 @@ class CPU
         @current_number_type = 0
       else
         case c
+        when ';'; @current = @source.size - 1
         when '('; add_token(TokenType::LeftParen)
         when ')'; add_token(TokenType::RightParen)
         when '$'; add_token(TokenType::Dollar)
@@ -158,16 +173,32 @@ class CPU
     def identifier
       start = @start
       start += 1 if @start != 0
+      label = false
       until KEYWORDS[@source[start..@current].upcase]? || is_at_end
-        advance
+        if @source[@current] == ';'
+          @current -= 1
+          break
+        elsif x = @labels.index { |l| l[0] == @source[start..@current] }
+          add_token(TokenType::Integer, @labels[x][1].to_i)
+          label = true
+          break
+        else
+          advance
+        end
       end
 
-      text = @source[start..@current]
-      type = KEYWORDS[text.upcase]?
-      raise ScannerException.new("Invalid command \"#{text.upcase}\" on line ##{@line}") unless type
-      # I chose to raise instead of letting it go
-      # type = TokenType::Identifier if type == nil
-      add_token(type)
+      if !label
+        if x = @labels.index { |l| l[0] == @source[start..@current] }
+          add_token(TokenType::Integer, @labels[x][1].to_i)
+        else
+          text = @source[start..@current]
+          type = KEYWORDS[text.upcase]?
+          raise ScannerException.new("Invalid command \"#{text.upcase}\" on line ##{@line}") unless type
+          # I chose to raise instead of letting it go
+          # type = TokenType::Identifier if type == nil
+          add_token(type)
+        end
+      end
     end
 
     def is_alpha(c : Char)

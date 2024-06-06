@@ -1,5 +1,13 @@
 class CPU
-   def bpl(m_value : UInt8)
+  # All branches are relative mode and have a length of two bytes.
+  # Syntax is "Bxx Displacement" or (better) "Bxx Label".
+  # Branches are dependant on the status of the flag bits when the opcode is encountered.
+  #
+  # A branch not taken requires 2 machine cycles.
+  # A branch requires 3 cycles if taken, plus 1 cycle if the branch cross a page boundary.
+
+  # Branch on Plus
+  def bpl(m_value : UInt8)
     if get_flag(Flags::Negative) == false
       u_m_value = (m_value - 128).to_i8
 
@@ -9,7 +17,8 @@ class CPU
     end
   end
 
-   def bvc(m_value : UInt8)
+  # Branch on Overflow Clear
+  def bvc(m_value : UInt8)
     if get_flag(Flags::Overflow) == false
       u_m_value = (m_value - 128).to_i8
 
@@ -19,7 +28,8 @@ class CPU
     end
   end
 
-   def bcc(m_value : Int)
+  #	Branch on Carry Clear
+  def bcc(m_value : Int)
     if get_flag(Flags::Carry) == false
       u_m_value = (m_value - 128).to_i8
 
@@ -29,7 +39,8 @@ class CPU
     end
   end
 
-   def bne(m_value : Int)
+  # Branch on Not Equal
+  def bne(m_value : Int)
     if get_flag(Flags::Zero) == false
       u_m_value = (m_value - 128).to_i8
 
@@ -39,7 +50,8 @@ class CPU
     end
   end
 
-   def bmi(m_value : UInt8)
+  #	Branch on Minus
+  def bmi(m_value : UInt8)
     if get_flag(Flags::Negative) == true
       u_m_value = (m_value - 128).to_i8
 
@@ -49,7 +61,8 @@ class CPU
     end
   end
 
-   def bvs(m_value : Int)
+  #	Branch on Overflow Set
+  def bvs(m_value : Int)
     if get_flag(Flags::Overflow) == true
       u_m_value = (m_value - 128).to_i8
 
@@ -59,7 +72,8 @@ class CPU
     end
   end
 
-   def bcs(m_value : Int)
+  #	Branch on Carry Set
+  def bcs(m_value : Int)
     if get_flag(Flags::Carry) == true
       u_m_value = (m_value - 128).to_i8
 
@@ -69,7 +83,8 @@ class CPU
     end
   end
 
-   def beq(m_value : Int)
+  # Branch on Equal
+  def beq(m_value : Int)
     if get_flag(Flags::Zero) == true
       u_m_value = (m_value - 128).to_i8
 

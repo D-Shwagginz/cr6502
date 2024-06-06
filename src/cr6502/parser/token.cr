@@ -1,4 +1,5 @@
 class CPU
+  # The keywords for the tokens, used when parsing
   KEYWORDS = {
     "ADC" => TokenType::ADC,
     "AND" => TokenType::AND,
@@ -56,8 +57,12 @@ class CPU
     "TXA" => TokenType::TXA,
     "TXS" => TokenType::TXS,
     "TYA" => TokenType::TYA,
+    # Custom
+    "PRT" => TokenType::PRT,
+    "LOG" => TokenType::LOG,
   }
 
+  # The types of tokens, used when parsing
   enum TokenType
     LeftParen
     RightParen
@@ -130,9 +135,15 @@ class CPU
     TXS
     TYA
 
+    # Custom
+    PRT
+    LOG
+    Label
+
     EOF
   end
 
+  # A token, used when parsing
   class Token
     property type : TokenType
     property lexeme : String

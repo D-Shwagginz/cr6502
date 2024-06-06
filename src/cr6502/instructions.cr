@@ -12,6 +12,8 @@ class CPU
   # Indirect,Y = indy
 
   # List of instructions sorted by its opcode
+  #
+  # Format is {"InstructionName", opcode, cycle length}
   INSTRUCTIONS = [
     {"BRK", 0x00_u8, 7},
     {"ORAindx", 0x01_u8, 6},
@@ -164,41 +166,51 @@ class CPU
     {"SBCabsy", 0xf9_u8, 4},
     {"SBCabsx", 0xfd_u8, 4},
     {"INCabsx", 0xfe_u8, 7},
+
+    # -- CUSTOM INSTRUCTIONS -- #
+    {"PRTzpg", 0x02_u8, 2},
+    {"PRTabs", 0x03_u8, 3},
+    {"LOG", 0x04_u8, 10},
   ]
 
-   def add_instruction(hex : UInt8 | UInt16)
+  # Adds an instruction, given it's opcode, into the current location in memory of the `CPU#program_counter` and increments the `CPU#program_counter` by the byte length of the given hex
+  def add_instruction(hex : UInt8 | UInt16)
     poke(@program_counter, hex)
     @program_counter += hex.is_a?(UInt8) ? 1 : 2
   end
 
-   def run_instruction
+  # Runs the current value of `CPU#program_counter`'s location in memory as an instruction
+  def run_instruction
     instruction = peek(@program_counter)
     @program_counter += 1_u16
 
+    # Loop through each instruction to find name of current instruction's opcode
     INSTRUCTIONS.each do |i|
       if i[1] == instruction
         @instruction_cycles += i[2]
         address = peek(@program_counter)
 
+        # Add 1 more cycle if address mode is indy and `CPU#get_indy(address)` is not on the same page of memory as the `CPU#program_counter`
         if i[0].includes?("indy")
           @instruction_cycles += (@program_counter - @program_counter//255*255 + get_indy(address)) > 255 ? 1 : 0
         end
 
+        # Add 1 more cycle if address mode is absy and `(address + @y_index) & 0xffff` is not on the same page of memory as the `CPU#program_counter`
         if i[0].includes?("absy")
           @instruction_cycles += (@program_counter - @program_counter//255*255 + ((address + @y_index) & 0xffff)) > 255 ? 1 : 0
           address = peek(@program_counter, true)
           @program_counter += 2
+          # Add 1 more cycle if address mode is absx and `(address + @x_index) & 0xffff` is not on the same page of memory as the `CPU#program_counter`
         elsif i[0].includes?("absx")
           @instruction_cycles += (@program_counter - @program_counter//255*255 + ((address + @x_index) & 0xffff)) > 255 ? 1 : 0
           address = peek(@program_counter, true)
           @program_counter += 2
-        elsif i[0].includes?("abs") || i[0].includes?("jsr") || i[0].includes?("JMPind")
+        elsif i[0].includes?("abs") || i[0].includes?("JSR") || i[0].includes?("JMPind")
           address = peek(@program_counter, true)
           @program_counter += 2
         elsif i[0].size > 3
           @program_counter += 1
         end
-
         case i[0]
         when "BRK"    ; brk
         when "ORAindx"; ora(peek(get_indx(address)).to_u8)
@@ -316,40 +328,44 @@ class CPU
         when "CMPindx"; cmp(peek(get_indx(address)).to_u8)
         when "CPYzpg" ; cpy(peek(address).to_u8)
         when "CMPzpg" ; cmp(peek(address).to_u8)
-        when "DECzpg" ; dec(peek(address).to_u8)
+        when "DECzpg" ; dec(peek(address).to_u8, address)
         when "INY"    ; iny()
         when "CMPi"   ; cmp(address.to_u8)
         when "DEX"    ; dex()
         when "CPYabs" ; cpy(peek(address).to_u8)
         when "CMPabs" ; cmp(peek(address).to_u8)
-        when "DECabs" ; dec(peek(address).to_u8)
+        when "DECabs" ; dec(peek(address).to_u8, address)
         when "BNE"    ; bne(address.to_u8)
         when "CMPindy"; cmp(peek(get_indy(address)).to_u8)
         when "CMPzpgx"; cmp(peek((address + @x_index) & 0xff).to_u8)
-        when "DECzpgx"; dec(peek((address + @x_index) & 0xff).to_u8)
+        when "DECzpgx"; dec(peek((address + @x_index) & 0xff).to_u8, (address + @x_index) & 0xff)
         when "CLD"    ; cld()
         when "CMPabsy"; cmp(peek((address + @y_index) & 0xffff).to_u8)
         when "CMPabsx"; cmp(peek((address + @x_index) & 0xffff).to_u8)
-        when "DECabsx"; dec(peek((address + @x_index) & 0xffff).to_u8)
+        when "DECabsx"; dec(peek((address + @x_index) & 0xffff).to_u8, (address + @x_index) & 0xffff)
         when "CPXi"   ; cpx(address.to_u8)
         when "SBCindx"; sbc(peek(get_indx(address)).to_u8)
         when "CPXzpg" ; cpx(peek(address).to_u8)
-        when "SBCzpg" ; sbc(peek(address).to_u8e)
-        when "INCzpg" ; inc(peek(address).to_u8)
+        when "SBCzpg" ; sbc(peek(address).to_u8)
+        when "INCzpg" ; inc(peek(address).to_u8, address)
         when "INX"    ; inx()
         when "SBCi"   ; sbc(address.to_u8)
         when "NOP"    ; nop()
         when "CPXabs" ; cpx(peek(address).to_u8)
         when "SBCabs" ; sbc(peek(address).to_u8)
-        when "INCabs" ; inc(peek(address).to_u8)
+        when "INCabs" ; inc(peek(address).to_u8, address)
         when "BEQ"    ; beq(address.to_u8)
         when "SBCindy"; sbc(peek(get_indy(address)).to_u8)
         when "SBCzpgx"; sbc(peek((address + @x_index) & 0xff).to_u8)
-        when "INCzpgx"; inc(peek((address + @x_index) & 0xff).to_u8)
+        when "INCzpgx"; inc(peek((address + @x_index) & 0xff).to_u8, (address + @x_index) & 0xff)
         when "SED"    ; sed()
         when "SBCabsy"; sbc(peek((address + @y_index) & 0xffff).to_u8)
         when "SBCabsx"; sbc(peek((address + @x_index) & 0xffff).to_u8)
-        when "INCabsx"; inc(peek((address + @x_index) & 0xffff).to_u8)
+        when "INCabsx"; inc(peek((address + @x_index) & 0xffff).to_u8, (address + @x_index) & 0xffff)
+          # Custom
+        when "PRTzpg"; prt(address.to_u8)
+        when "PRTabs"; prt(address.to_u16)
+        when "LOG"   ; log()
         end
       end
     end

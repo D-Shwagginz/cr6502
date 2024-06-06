@@ -1,23 +1,30 @@
 class CPU
-   def and(m_value : UInt8)
+  # Bitwise AND with Accumulator
+  def and(m_value : UInt8)
     @accumulator = @accumulator & m_value
     set_flag(Flags::Negative, @accumulator.bit(7) == 1)
     set_flag(Flags::Zero, @accumulator == 0)
   end
 
-   def eor(m_value : UInt8)
+  # Bitwise Exclusive-OR with Accumulator
+  def eor(m_value : UInt8)
     @accumulator = @accumulator ^ m_value
     set_flag(Flags::Negative, @accumulator.bit(7) == 1)
     set_flag(Flags::Zero, @accumulator == 0)
   end
 
-   def ora(m_value : UInt8)
+  # Bitwise OR with Accumulator
+  def ora(m_value : UInt8)
     @accumulator = @accumulator | m_value
     set_flag(Flags::Negative, @accumulator.bit(7) == 1)
     set_flag(Flags::Zero, @accumulator == 0)
   end
 
-   def asl(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = false)
+  # Arithmetic Shift Left
+  #
+  # ASL shifts all bits left one position.
+  # 0 is shifted into bit 0 and the original bit 7 is shifted into the Carry.
+  def asl(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = false)
     set_flag(Flags::Carry, m_value.bit(7) == 1)
     if accumulator
       @accumulator = ((@accumulator << 1) & 0xfe)
@@ -28,7 +35,11 @@ class CPU
     set_flag(Flags::Zero, m_value == 0)
   end
 
-   def lsr(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = false)
+  # Logical Shift Right
+  #
+  # LSR shifts all bits right one position.
+  # 0 is shifted into bit 7 and the original bit 0 is shifted into the Carry.
+  def lsr(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = false)
     set_flag(Flags::Negative, false)
     set_flag(Flags::Carry, m_value.bit(0) == 1)
 
@@ -41,7 +52,11 @@ class CPU
     set_flag(Flags::Zero, m_value == 0)
   end
 
-   def rol(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = false)
+  # Rotate Left
+  #
+  # ROL shifts all bits left one position.
+  # The Carry is shifted into bit 0 and the original bit 7 is shifted into the Carry.
+  def rol(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = false)
     t = m_value.bit(7)
 
     if accumulator
@@ -57,7 +72,11 @@ class CPU
     set_flag(Flags::Negative, m_value.bit(7) == 1)
   end
 
-   def ror(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = false)
+  # Rotate Right
+  #
+  # ROR shifts all bits right one position.
+  # The Carry is shifted into bit 7 and the original bit 0 is shifted into the Carry.
+  def ror(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = false)
     t = m_value.bit(0) == 1
     @accumulator = (m_value >> 1) & 0x7f
     @accumulator = m_value | (get_flag(Flags::Carry) ? 0x80 : 0x00)

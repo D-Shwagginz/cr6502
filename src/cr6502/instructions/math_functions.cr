@@ -1,5 +1,8 @@
 class CPU
-   def adc(m_value : UInt8)
+  # Add with Carry
+  #
+  # ADC behavior depends on the state of the `CPU::Flags::DecimalMode` flag. In decimal mode, the values upon which the addition is performed are interpreted as packed BCD (Binary Coded Decimal).
+  def adc(m_value : UInt8)
     t = @accumulator + m_value + get_flag(Flags::Carry).to_unsafe
     set_flag(Flags::Overflow, @accumulator.bit(7) != t.bit(7))
     set_flag(Flags::Negative, @accumulator.bit(7) == 1)
@@ -15,7 +18,10 @@ class CPU
     @accumulator = t & 0xff
   end
 
-   def sbc(m_value : UInt8)
+  # Subtract with Carry
+  #
+  # SBC behavior depends on the state of the `CPU::Flags::DecimalMode` flag. In decimal mode, the values upon which the subtraction is performed are interpreted as packed BCD (Binary Coded Decimal).
+  def sbc(m_value : UInt8)
     if get_flag(Flags::DecimalMode)
       t = bcd(@accumulator) - bcd(m_value) - (get_flag(Flags::Carry) ? 0 : 1)
       set_flag(Flags::Overflow, t > 99 || t < 0)
