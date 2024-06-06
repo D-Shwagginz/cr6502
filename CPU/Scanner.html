@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.11.2">
+<meta name="crystal_docs.project_version" content="master">
+<meta name="crystal_docs.project_name" content="cr6502">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="cr6502">
+  <title>CPU::Scanner - cr6502 master</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          cr6502
+        </a>
+      </h1>
+
+      <span class="project-version">
+        master
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="cr6502/CPU" data-name="cpu">
+      <a href="../CPU.html">CPU</a>
+      
+        <ul>
+  
+  <li class=" " data-id="cr6502/CPU/AddressModes" data-name="cpu::addressmodes">
+      <a href="../CPU/AddressModes.html">AddressModes</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/ASMException" data-name="cpu::asmexception">
+      <a href="../CPU/ASMException.html">ASMException</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/Flags" data-name="cpu::flags">
+      <a href="../CPU/Flags.html">Flags</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/LineParsingException" data-name="cpu::lineparsingexception">
+      <a href="../CPU/LineParsingException.html">LineParsingException</a>
+      
+    </li>
+  
+  <li class=" current" data-id="cr6502/CPU/Scanner" data-name="cpu::scanner">
+      <a href="../CPU/Scanner.html">Scanner</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/ScannerException" data-name="cpu::scannerexception">
+      <a href="../CPU/ScannerException.html">ScannerException</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/Token" data-name="cpu::token">
+      <a href="../CPU/Token.html">Token</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/TokenType" data-name="cpu::tokentype">
+      <a href="../CPU/TokenType.html">TokenType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> CPU::<wbr>Scanner
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../CPU/Scanner.html">CPU::Scanner</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>The scanner for parsing</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L3" target="_blank">
+        cr6502/parser/scanner.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28source%3AString%2Cline%3AInt32%2Clabels%3AArray%28Tuple%28String%2CUInt16%7CUInt8%2CBool%29%29%29-class-method" class="signature"><strong>.new</strong>(source : String, line : Int32, labels : Array(Tuple(String, UInt16 | UInt8, Bool)))</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#add_token%28type%3ATokenType%2Cliteral%3AInt32%7CNil%3Dnil%29-instance-method" class="signature"><strong>#add_token</strong>(type : TokenType, literal : Int32 | Nil = <span class="n">nil</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#advance-instance-method" class="signature"><strong>#advance</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#binary-instance-method" class="signature"><strong>#binary</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#hex-instance-method" class="signature"><strong>#hex</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#identifier-instance-method" class="signature"><strong>#identifier</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#is_alpha%28c%3AChar%29-instance-method" class="signature"><strong>#is_alpha</strong>(c : Char)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#is_alpha_numeric%28c%3AChar%29-instance-method" class="signature"><strong>#is_alpha_numeric</strong>(c : Char)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#is_at_end-instance-method" class="signature"><strong>#is_at_end</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#labels%3AArray%28Tuple%28String%2CUInt8%7CUInt16%2CBool%29%29-instance-method" class="signature"><strong>#labels</strong> : Array(Tuple(String, UInt8 | UInt16, Bool))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#labels%3D%28labels%3AArray%28Tuple%28String%2CUInt8%7CUInt16%2CBool%29%29%29-instance-method" class="signature"><strong>#labels=</strong>(labels : Array(Tuple(String, UInt8 | UInt16, Bool)))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#match%28expected%3AChar%29-instance-method" class="signature"><strong>#match</strong>(expected : Char)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#number-instance-method" class="signature"><strong>#number</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#peek-instance-method" class="signature"><strong>#peek</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#peek_next-instance-method" class="signature"><strong>#peek_next</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#scan_token%28just_labels%3ABool%29-instance-method" class="signature"><strong>#scan_token</strong>(just_labels : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#scan_tokens%28just_labels%3ABool%3Dfalse%29-instance-method" class="signature"><strong>#scan_tokens</strong>(just_labels : Bool = <span class="n">false</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#tokens%3AArray%28Token%29-instance-method" class="signature"><strong>#tokens</strong> : Array(Token)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#tokens%3D%28tokens%3AArray%28Token%29%29-instance-method" class="signature"><strong>#tokens=</strong>(tokens : Array(Token))</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(source:String,line:Int32,labels:Array(Tuple(String,UInt16|UInt8,Bool)))-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(source : String, line : Int32, labels : Array(Tuple(String, UInt16 | UInt8, Bool)))
+
+        <a class="method-permalink" href="#new%28source%3AString%2Cline%3AInt32%2Clabels%3AArray%28Tuple%28String%2CUInt16%7CUInt8%2CBool%29%29%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L14" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="add_token(type:TokenType,literal:Int32|Nil=nil)-instance-method">
+      <div class="signature">
+        
+        def <strong>add_token</strong>(type : <a href="../CPU/TokenType.html">TokenType</a>, literal : Int32 | Nil = <span class="n">nil</span>)
+
+        <a class="method-permalink" href="#add_token%28type%3ATokenType%2Cliteral%3AInt32%7CNil%3Dnil%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L46" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="advance-instance-method">
+      <div class="signature">
+        
+        def <strong>advance</strong>
+
+        <a class="method-permalink" href="#advance-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L32" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="binary-instance-method">
+      <div class="signature">
+        
+        def <strong>binary</strong>
+
+        <a class="method-permalink" href="#binary-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L121" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="hex-instance-method">
+      <div class="signature">
+        
+        def <strong>hex</strong>
+
+        <a class="method-permalink" href="#hex-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L140" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="identifier-instance-method">
+      <div class="signature">
+        
+        def <strong>identifier</strong>
+
+        <a class="method-permalink" href="#identifier-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L183" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="is_alpha(c:Char)-instance-method">
+      <div class="signature">
+        
+        def <strong>is_alpha</strong>(c : Char)
+
+        <a class="method-permalink" href="#is_alpha%28c%3AChar%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L214" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="is_alpha_numeric(c:Char)-instance-method">
+      <div class="signature">
+        
+        def <strong>is_alpha_numeric</strong>(c : Char)
+
+        <a class="method-permalink" href="#is_alpha_numeric%28c%3AChar%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L219" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="is_at_end-instance-method">
+      <div class="signature">
+        
+        def <strong>is_at_end</strong>
+
+        <a class="method-permalink" href="#is_at_end-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L17" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="labels:Array(Tuple(String,UInt8|UInt16,Bool))-instance-method">
+      <div class="signature">
+        
+        def <strong>labels</strong> : Array(Tuple(String, UInt8 | UInt16, Bool))
+
+        <a class="method-permalink" href="#labels%3AArray%28Tuple%28String%2CUInt8%7CUInt16%2CBool%29%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L6" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="labels=(labels:Array(Tuple(String,UInt8|UInt16,Bool)))-instance-method">
+      <div class="signature">
+        
+        def <strong>labels=</strong>(labels : Array(Tuple(String, UInt8 | UInt16, Bool)))
+
+        <a class="method-permalink" href="#labels%3D%28labels%3AArray%28Tuple%28String%2CUInt8%7CUInt16%2CBool%29%29%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L6" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="match(expected:Char)-instance-method">
+      <div class="signature">
+        
+        def <strong>match</strong>(expected : Char)
+
+        <a class="method-permalink" href="#match%28expected%3AChar%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L53" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="number-instance-method">
+      <div class="signature">
+        
+        def <strong>number</strong>
+
+        <a class="method-permalink" href="#number-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L159" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="peek-instance-method">
+      <div class="signature">
+        
+        def <strong>peek</strong>
+
+        <a class="method-permalink" href="#peek-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L41" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="peek_next-instance-method">
+      <div class="signature">
+        
+        def <strong>peek_next</strong>
+
+        <a class="method-permalink" href="#peek_next-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L178" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="scan_token(just_labels:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>scan_token</strong>(just_labels : Bool)
+
+        <a class="method-permalink" href="#scan_token%28just_labels%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L59" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="scan_tokens(just_labels:Bool=false)-instance-method">
+      <div class="signature">
+        
+        def <strong>scan_tokens</strong>(just_labels : Bool = <span class="n">false</span>)
+
+        <a class="method-permalink" href="#scan_tokens%28just_labels%3ABool%3Dfalse%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L21" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="tokens:Array(Token)-instance-method">
+      <div class="signature">
+        
+        def <strong>tokens</strong> : Array(<a href="../CPU/Token.html">Token</a>)
+
+        <a class="method-permalink" href="#tokens%3AArray%28Token%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L5" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="tokens=(tokens:Array(Token))-instance-method">
+      <div class="signature">
+        
+        def <strong>tokens=</strong>(tokens : Array(<a href="../CPU/Token.html">Token</a>))
+
+        <a class="method-permalink" href="#tokens%3D%28tokens%3AArray%28Token%29%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L5" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+</div>
+
+</body>
+</html>

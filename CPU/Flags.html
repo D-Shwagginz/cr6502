@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.11.2">
+<meta name="crystal_docs.project_version" content="master">
+<meta name="crystal_docs.project_name" content="cr6502">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="cr6502">
+  <title>CPU::Flags - cr6502 master</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          cr6502
+        </a>
+      </h1>
+
+      <span class="project-version">
+        master
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="cr6502/CPU" data-name="cpu">
+      <a href="../CPU.html">CPU</a>
+      
+        <ul>
+  
+  <li class=" " data-id="cr6502/CPU/AddressModes" data-name="cpu::addressmodes">
+      <a href="../CPU/AddressModes.html">AddressModes</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/ASMException" data-name="cpu::asmexception">
+      <a href="../CPU/ASMException.html">ASMException</a>
+      
+    </li>
+  
+  <li class=" current" data-id="cr6502/CPU/Flags" data-name="cpu::flags">
+      <a href="../CPU/Flags.html">Flags</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/LineParsingException" data-name="cpu::lineparsingexception">
+      <a href="../CPU/LineParsingException.html">LineParsingException</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/Scanner" data-name="cpu::scanner">
+      <a href="../CPU/Scanner.html">Scanner</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/ScannerException" data-name="cpu::scannerexception">
+      <a href="../CPU/ScannerException.html">ScannerException</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/Token" data-name="cpu::token">
+      <a href="../CPU/Token.html">Token</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/TokenType" data-name="cpu::tokentype">
+      <a href="../CPU/TokenType.html">TokenType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">enum</span> CPU::<wbr>Flags
+
+</h1>
+
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>The flags of the cpu</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L141" target="_blank">
+        cr6502/6502.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+  
+    <h2>
+      <a id="enum-members" class="anchor" href="#enum-members">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Enum Members
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="Negative">
+        <strong>Negative</strong> = <code><span class="n">0</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <h3><a id="the-sign-flag" class="anchor" href="#the-sign-flag">  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>The Sign Flag</h3>
+<p>Sign Flag serves TWO purposes</p>
+<ol>
+<li>To signify the sigN of the last mathematical or bitwise operation.
+The sign is the bit-7 of the result value.
+If the last operation was not a signed operation, P.N will still reflect bit-7 of the result, but will NOT be considered as a sign.</li>
+<li>As a result store for a <code><a href="../CPU.html#bit%28m_value%3AUInt8%29-instance-method">CPU#bit</a></code> instruction:
+The <code><a href="../CPU.html#bit%28m_value%3AUInt8%29-instance-method">CPU#bit</a></code> instruction reads the contents of the specified memory address and copies bit-7 of that value to the Sign Flag</li>
+</ol>
+      </dd>
+      
+    
+      <dt class="entry-const" id="Overflow">
+        <strong>Overflow</strong> = <code><span class="n">1</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <h3><a id="the-overflow-flag" class="anchor" href="#the-overflow-flag">  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>The Overflow Flag</h3>
+<p>P.V serves TWO purposes</p>
+<ol>
+<li>To signify an oVerflow (a sign change) during a mathmatical operation. Caused by an <code><a href="../CPU.html#adc%28m_value%3AUInt8%29-instance-method">CPU#adc</a></code> or <code><a href="../CPU.html#sbc%28m_value%3AUInt8%29-instance-method">CPU#sbc</a></code> instruction:
+If an <code><a href="../CPU.html#adc%28m_value%3AUInt8%29-instance-method">CPU#adc</a></code> or <code><a href="../CPU.html#sbc%28m_value%3AUInt8%29-instance-method">CPU#sbc</a></code> instruction generates a result that would require more than 8 bits to hold (that is, any number outside the range -128 to 127) then Overflow is SET; else Overflow is CLEARed.
+This flag may be ignored if the programmer is NOT using signed arithmetic.</li>
+<li>As a result store for a <code><a href="../CPU.html#bit%28m_value%3AUInt8%29-instance-method">CPU#bit</a></code> instruction:
+The <code><a href="../CPU.html#bit%28m_value%3AUInt8%29-instance-method">CPU#bit</a></code> instruction reads the contents of the specified memory address and copies bit-6 of that value to P.V</li>
+</ol>
+      </dd>
+      
+    
+      <dt class="entry-const" id="Break">
+        <strong>Break</strong> = <code><span class="n">2</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <h3><a id="the-break-flag" class="anchor" href="#the-break-flag">  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>The Break Flag</h3>
+<p>The Break Flag and the <code><a href="../CPU.html#brk-instance-method">CPU#brk</a></code> instruction seem to me to be one very badly thought out bodge.
+If you do not plan to use the <code><a href="../CPU.html#brk-instance-method">CPU#brk</a></code> instruction I would just ignore it!
+P.B is never actually set in the Flags register!
+When a <code><a href="../CPU.html#brk-instance-method">CPU#brk</a></code> instruction occurs the Flags are PUSHed onto the Stack along with a return address*
+It is only this copy of the Flags (the one on the Stack) that has P.B set!</p>
+<ul>
+<li>This return address is actually &quot;Address_of_BRK_instruction+2&quot;.
+Bearing in mind that the <code><a href="../CPU.html#brk-instance-method">CPU#brk</a></code> instruction is only ONE byte long...
+This means that if you simply issue an <code><a href="../CPU.html#rti-instance-method">CPU#rti</a></code>,
+The byte immediately following the <code><a href="../CPU.html#brk-instance-method">CPU#brk</a></code> instruction will be ignored.
+I have read reasons as to WHY this is the case, but frankly they all stink! ...Just deal with it!</li>
+</ul>
+      </dd>
+      
+    
+      <dt class="entry-const" id="DecimalMode">
+        <strong>DecimalMode</strong> = <code><span class="n">3</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <h3><a id="the-decimal-flag" class="anchor" href="#the-decimal-flag">  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>The Decimal Flag</h3>
+<p>P.D dictates whether Addition (<code><a href="../CPU.html#adc%28m_value%3AUInt8%29-instance-method">CPU#adc</a></code>) and Subtraction (<code><a href="../CPU.html#sbc%28m_value%3AUInt8%29-instance-method">CPU#sbc</a></code>) operate in the classic Binary or the more obscure <a href="https://www.csh.rit.edu/~moffitt/docs/6502.html#BCD">Binary Coded Decimal (BCD)</a> mode.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="InterruptDisable">
+        <strong>InterruptDisable</strong> = <code><span class="n">4</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <h3><a id="the-interrupt-disable-flag" class="anchor" href="#the-interrupt-disable-flag">  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>The Interrupt (disable) Flag</h3>
+<p>When P.I is SET, Interrupt ReQuest signals (IRQs) to the IRQ pin (classically pin-4) are IGNORED
+When P.I is CLEAR, signals to the IRQ pin are acknowledged.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="Zero">
+        <strong>Zero</strong> = <code><span class="n">5</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <h3><a id="the-zero-flag" class="anchor" href="#the-zero-flag">  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>The Zero Flag</h3>
+<p>P.Z is SET when a zero value is placed in a register
+P.Z is CLEARed when a non-zero value is placed in a register</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="Carry">
+        <strong>Carry</strong> = <code><span class="n">6</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <h3><a id="the-carry-flag" class="anchor" href="#the-carry-flag">  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>The Carry Flag</h3>
+<p>P.C can be considered to be the 9th bit of an arithmetic operation.</p>
+      </dd>
+      
+    
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#break%3F-instance-method" class="signature"><strong>#break?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#carry%3F-instance-method" class="signature"><strong>#carry?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#decimal_mode%3F-instance-method" class="signature"><strong>#decimal_mode?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#interrupt_disable%3F-instance-method" class="signature"><strong>#interrupt_disable?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#negative%3F-instance-method" class="signature"><strong>#negative?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#overflow%3F-instance-method" class="signature"><strong>#overflow?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#zero%3F-instance-method" class="signature"><strong>#zero?</strong></a>
+        
+      </li>
+    
+  </ul>
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="break?-instance-method">
+      <div class="signature">
+        
+        def <strong>break?</strong>
+
+        <a class="method-permalink" href="#break%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L170" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="carry?-instance-method">
+      <div class="signature">
+        
+        def <strong>carry?</strong>
+
+        <a class="method-permalink" href="#carry%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L184" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="decimal_mode?-instance-method">
+      <div class="signature">
+        
+        def <strong>decimal_mode?</strong>
+
+        <a class="method-permalink" href="#decimal_mode%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L173" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="interrupt_disable?-instance-method">
+      <div class="signature">
+        
+        def <strong>interrupt_disable?</strong>
+
+        <a class="method-permalink" href="#interrupt_disable%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L177" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="negative?-instance-method">
+      <div class="signature">
+        
+        def <strong>negative?</strong>
+
+        <a class="method-permalink" href="#negative%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L149" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="overflow?-instance-method">
+      <div class="signature">
+        
+        def <strong>overflow?</strong>
+
+        <a class="method-permalink" href="#overflow%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L157" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="zero?-instance-method">
+      <div class="signature">
+        
+        def <strong>zero?</strong>
+
+        <a class="method-permalink" href="#zero%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L181" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,2977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.11.2">
+<meta name="crystal_docs.project_version" content="master">
+<meta name="crystal_docs.project_name" content="cr6502">
+
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/doc.js"></script>
+
+  <meta name="repository-name" content="cr6502">
+  <title>CPU - cr6502 master</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="index.html">
+          cr6502
+        </a>
+      </h1>
+
+      <span class="project-version">
+        master
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="cr6502/CPU" data-name="cpu">
+      <a href="CPU.html">CPU</a>
+      
+        <ul>
+  
+  <li class=" " data-id="cr6502/CPU/AddressModes" data-name="cpu::addressmodes">
+      <a href="CPU/AddressModes.html">AddressModes</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/ASMException" data-name="cpu::asmexception">
+      <a href="CPU/ASMException.html">ASMException</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/Flags" data-name="cpu::flags">
+      <a href="CPU/Flags.html">Flags</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/LineParsingException" data-name="cpu::lineparsingexception">
+      <a href="CPU/LineParsingException.html">LineParsingException</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/Scanner" data-name="cpu::scanner">
+      <a href="CPU/Scanner.html">Scanner</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/ScannerException" data-name="cpu::scannerexception">
+      <a href="CPU/ScannerException.html">ScannerException</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/Token" data-name="cpu::token">
+      <a href="CPU/Token.html">Token</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/TokenType" data-name="cpu::tokentype">
+      <a href="CPU/TokenType.html">TokenType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> CPU
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="CPU.html">CPU</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <h2><a id="the-6502-cpu" class="anchor" href="#the-6502-cpu">  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>The 6502 CPU</h2>
+<h3><a id="assembly" class="anchor" href="#assembly">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Assembly:</h3>
+<p>The main powerhouse of the emulator is the <code><a href="CPU.html#load_asm%28code%3AString%2Cstart_location%3AUInt16%3D%28peek%28RES_LOCATION%2Ctrue%29%29.to_u16%29-instance-method">CPU#load_asm()</a></code> method.</p>
+<p>The method allows you to type in 6502 asm code and run it through Crystal.<br>
+The assembler has the ability to use labels as well as a few custom instructions<br>
+It also uses a semicolon ';' for inline comments</p>
+<p>Example:</p>
+<pre><code class="language-crystal">; <span class="t">Look</span> at this cool comment!
+cpu <span class="o">=</span> <span class="t">CPU</span>.new(<span class="n">1.0</span>, <span class="n">0x0600_u16</span>, <span class="t">CPU</span><span class="t">::</span><span class="t">RES_LOCATION</span> <span class="o">-</span> <span class="n">2</span>)
+cpu.load_asm(<span class="s">&quot;
+lda #$14
+&quot;</span>)
+cpu.execute
+puts cpu.accumulator</code></pre>
+<p>To see all of the custom instructions, please see <a href="https://github.com/D-Shwagginz/cr6502/blob/master/src/cr6502/instructions/custom_instructions.cr">custom_instructions.cr</a></p>
+<p>Example:</p>
+<pre><code class="language-crystal">cpu.load_asm(<span class="s">&quot;
+prt 22
+&quot;</span>)
+cpu.execute <span class="c"># =&gt; puts &quot;Type: UInt8 | Hex: 0x16 | Decimal: 22 | Binary: 0b00010110&quot;</span></code></pre>
+<p>The assembler also has some predefined labels:<br>
+<code>resvec:</code> will set the value at <code><a href="CPU.html#RES_LOCATION">RES_LOCATION</a></code> to the label's memory location.<br>
+<code>brkvec:</code> will set the value at <code><a href="CPU.html#BRK_LOCATION">BRK_LOCATION</a></code> to the label's memory location.<br></p>
+<p>Example:</p>
+<pre><code class="language-crystal">cpu <span class="o">=</span> <span class="t">CPU</span>.new(<span class="n">1.0</span>, <span class="n">0x0200_u16</span>)
+cpu.load_asm(<span class="s">&quot;
+resvec:
+nop
+brkvec:
+&quot;</span>)
+puts cpu.peek(<span class="t">CPU</span><span class="t">::</span><span class="t">BRK_LOCATION</span>, <span class="n">true</span>).to_s(<span class="n">16</span>) <span class="c"># =&gt; 200</span>
+puts cpu.peek(<span class="t">CPU</span><span class="t">::</span><span class="t">RES_LOCATION</span>, <span class="n">true</span>).to_s(<span class="n">16</span>) <span class="c"># =&gt; 201</span></code></pre>
+<p>Being written in Crystal, you can use string interpolation when writing assembly code, giving access for any UInt8 and UInt16
+to be injected into the code.</p>
+<h1><a id="example" class="anchor" href="#example">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Example:</h1>
+<pre><code class="language-crystal">x <span class="o">=</span> <span class="n">0xa4</span>
+cpu.load_asm(<span class="s">&quot;
+lda #</span><span class="i">#{</span>x<span class="i">}</span><span class="s">
+&quot;</span>)
+cpu.execute
+puts cpu.accumulator.to_s(<span class="n">16</span>) <span class="c"># =&gt; a4</span></code></pre>
+<p>Note that the values are assigned at the assembler's compile time, therefore</p>
+<pre><code class="language-crystal">x <span class="o">=</span> <span class="n">0xa4_u8</span>
+cpu.load_asm(<span class="s">&quot;
+lda #</span><span class="i">#{</span>x<span class="i">}</span><span class="s">
+prt </span><span class="i">#{</span>cpu.accumulator<span class="i">}</span><span class="s">
+&quot;</span>)
+cpu.execute                   <span class="c"># =&gt; puts &quot;Type: UInt8 | Hex: 0x00 | Decimal: 0 | Binary: 0b00000000&quot;</span>
+puts cpu.accumulator.to_s(<span class="n">16</span>) <span class="c"># =&gt; a4</span></code></pre>
+<p>In the above example, at compile time, <code>cpu.accumulator</code> is set to 0. It only gets changed at the runtime of the code.<br>
+You can however achieve the hoped for effect by using multiple <code><a href="CPU.html#load_asm%28code%3AString%2Cstart_location%3AUInt16%3D%28peek%28RES_LOCATION%2Ctrue%29%29.to_u16%29-instance-method">CPU#load_asm</a></code> methods:</p>
+<pre><code class="language-crystal">x <span class="o">=</span> <span class="n">0xa4_u8</span>
+cpu.load_asm(<span class="s">&quot;
+lda #</span><span class="i">#{</span>x<span class="i">}</span><span class="s">
+&quot;</span>)
+
+cpu.execute
+
+cpu.load_asm(<span class="s">&quot;
+prt </span><span class="i">#{</span>cpu.accumulator<span class="i">}</span><span class="s">
+&quot;</span>)
+
+cpu.execute <span class="c"># =&gt; puts &quot;Type: UInt8 | Hex: 0xa4 | Decimal: 164 | Binary: 0b10100100&quot;</span></code></pre>
+<p>Be careful when doing this though as you must keep in mind that the memory has not reset, but using <code><a href="CPU.html#load_asm%28code%3AString%2Cstart_location%3AUInt16%3D%28peek%28RES_LOCATION%2Ctrue%29%29.to_u16%29-instance-method">CPU#load_asm</a></code> will reset the <code><a href="CPU.html#program_counter%3AUInt16-instance-method">CPU#program_counter</a></code>
+to its original value, or to the value of a <code>resvec:</code></p>
+<p>This means that all the instructions set by any previous <code><a href="CPU.html#load_asm%28code%3AString%2Cstart_location%3AUInt16%3D%28peek%28RES_LOCATION%2Ctrue%29%29.to_u16%29-instance-method">CPU#load_asm</a></code>'s will still be there in memory.</p>
+<p>To counteract this issue, ensure that a brk is set at the end of any code</p>
+<p>You can however &quot;append&quot; code by setting the <code>start_location</code> of <code><a href="CPU.html#load_asm%28code%3AString%2Cstart_location%3AUInt16%3D%28peek%28RES_LOCATION%2Ctrue%29%29.to_u16%29-instance-method">CPU#load_asm</a></code> manually</p>
+<p>Example</p>
+<pre><code class="language-crystal">cpu <span class="o">=</span> <span class="t">CPU</span>.new(<span class="n">1.0</span>, <span class="n">0x0600_u16</span>, <span class="t">CPU</span><span class="t">::</span><span class="t">RES_LOCATION</span> <span class="o">-</span> <span class="n">2</span>)
+
+cpu.load_asm(<span class="s">&quot;
+lda #01
+&quot;</span>)
+
+<span class="c"># Code = a9 01 #</span>
+
+cpu.load_asm(<span class="n">0x0603</span><span class="s">&quot;
+lda #01
+&quot;</span>)
+
+<span class="c"># Code = a9 01 a9 01 #</span></code></pre>
+<p>You can also use <code>resvec:</code> to edit the default <code><a href="CPU.html#program_counter%3AUInt16-instance-method">CPU#program_counter</a></code> location when editing code</p>
+<p>Example</p>
+<pre><code class="language-crystal">cpu.load_asm(<span class="s">&quot;
+lda #01
+resvec:
+&quot;</span>)
+
+<span class="c"># Code = a9 01 #</span>
+
+cpu.load_asm(<span class="s">&quot;
+lda #01
+&quot;</span>)
+
+<span class="c"># Code = a9 01 a9 01 #</span></code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L134" target="_blank">
+        cr6502/6502.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/addressing.cr#L1" target="_blank">
+        cr6502/addressing.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions.cr#L1" target="_blank">
+        cr6502/instructions.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/bitwise_instructions.cr#L1" target="_blank">
+        cr6502/instructions/bitwise_instructions.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/branch_instructions.cr#L1" target="_blank">
+        cr6502/instructions/branch_instructions.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/compare_instructions.cr#L1" target="_blank">
+        cr6502/instructions/compare_instructions.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/custom_instructions.cr#L1" target="_blank">
+        cr6502/instructions/custom_instructions.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/flag_instructions.cr#L1" target="_blank">
+        cr6502/instructions/flag_instructions.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/jump_instructions.cr#L1" target="_blank">
+        cr6502/instructions/jump_instructions.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/math_instructions.cr#L1" target="_blank">
+        cr6502/instructions/math_instructions.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/memory_instructions.cr#L1" target="_blank">
+        cr6502/instructions/memory_instructions.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/other_instructions.cr#L1" target="_blank">
+        cr6502/instructions/other_instructions.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/register_instructions.cr#L1" target="_blank">
+        cr6502/instructions/register_instructions.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/stack_instructions.cr#L1" target="_blank">
+        cr6502/instructions/stack_instructions.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser.cr#L1" target="_blank">
+        cr6502/parser.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/error.cr#L1" target="_blank">
+        cr6502/parser/error.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/scanner.cr#L1" target="_blank">
+        cr6502/parser/scanner.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser/token.cr#L1" target="_blank">
+        cr6502/parser/token.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="BRK_LOCATION">
+        <strong>BRK_LOCATION</strong> = <code><span class="n">65534_u16</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>Vector address for BRK</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="INSTRUCTIONS">
+        <strong>INSTRUCTIONS</strong> = <code>[{<span class="s">&quot;BRK&quot;</span>, <span class="n">0_u8</span>, <span class="n">7</span>}, {<span class="s">&quot;ORAindx&quot;</span>, <span class="n">1_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;ORAzpg&quot;</span>, <span class="n">5_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;ASLzpg&quot;</span>, <span class="n">6_u8</span>, <span class="n">5</span>}, {<span class="s">&quot;PHP&quot;</span>, <span class="n">8_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;ORAi&quot;</span>, <span class="n">9_u8</span>, <span class="n">2</span>, <span class="n">2</span>}, {<span class="s">&quot;ASLa&quot;</span>, <span class="n">10_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;ORAabs&quot;</span>, <span class="n">13_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;ASLabs&quot;</span>, <span class="n">14_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;BPL&quot;</span>, <span class="n">16_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;ORAindy&quot;</span>, <span class="n">17_u8</span>, <span class="n">5</span>}, {<span class="s">&quot;ORAzpgx&quot;</span>, <span class="n">21_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;ASLzpgx&quot;</span>, <span class="n">22_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;CLC&quot;</span>, <span class="n">24_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;ORAabsy&quot;</span>, <span class="n">25_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;ORAabsx&quot;</span>, <span class="n">29_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;ASLabsx&quot;</span>, <span class="n">30_u8</span>, <span class="n">7</span>}, {<span class="s">&quot;JSR&quot;</span>, <span class="n">32_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;ANDindx&quot;</span>, <span class="n">33_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;BITzpg&quot;</span>, <span class="n">36_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;ANDzpg&quot;</span>, <span class="n">37_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;ROLzpg&quot;</span>, <span class="n">38_u8</span>, <span class="n">5</span>}, {<span class="s">&quot;PLP&quot;</span>, <span class="n">40_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;ANDi&quot;</span>, <span class="n">41_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;ROLa&quot;</span>, <span class="n">42_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;BITabs&quot;</span>, <span class="n">44_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;ANDabs&quot;</span>, <span class="n">45_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;ROLabs&quot;</span>, <span class="n">46_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;BMI&quot;</span>, <span class="n">48_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;ANDindy&quot;</span>, <span class="n">49_u8</span>, <span class="n">5</span>}, {<span class="s">&quot;ANDzpgx&quot;</span>, <span class="n">53_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;ROLzpgx&quot;</span>, <span class="n">54_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;SEC&quot;</span>, <span class="n">56_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;ANDabsy&quot;</span>, <span class="n">57_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;ANDabsx&quot;</span>, <span class="n">61_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;ROLabsx&quot;</span>, <span class="n">62_u8</span>, <span class="n">7</span>}, {<span class="s">&quot;RTI&quot;</span>, <span class="n">64_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;EORindx&quot;</span>, <span class="n">65_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;EORzpg&quot;</span>, <span class="n">69_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;LSRzpg&quot;</span>, <span class="n">70_u8</span>, <span class="n">5</span>}, {<span class="s">&quot;PHA&quot;</span>, <span class="n">72_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;EORi&quot;</span>, <span class="n">73_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;LSRa&quot;</span>, <span class="n">74_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;JMPabs&quot;</span>, <span class="n">76_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;EORabs&quot;</span>, <span class="n">77_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;LSRabs&quot;</span>, <span class="n">78_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;BVC&quot;</span>, <span class="n">80_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;EORindy&quot;</span>, <span class="n">81_u8</span>, <span class="n">5</span>}, {<span class="s">&quot;EORzpgx&quot;</span>, <span class="n">85_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;LSRzpgx&quot;</span>, <span class="n">86_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;CLI&quot;</span>, <span class="n">88_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;EORabsy&quot;</span>, <span class="n">89_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;EORabsx&quot;</span>, <span class="n">93_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;LSRabs&quot;</span>, <span class="n">94_u8</span>, <span class="n">7</span>}, {<span class="s">&quot;RTS&quot;</span>, <span class="n">96_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;ADCindx&quot;</span>, <span class="n">97_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;ADCzpg&quot;</span>, <span class="n">101_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;RORzpg&quot;</span>, <span class="n">102_u8</span>, <span class="n">5</span>}, {<span class="s">&quot;PLA&quot;</span>, <span class="n">104_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;ADCi&quot;</span>, <span class="n">105_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;RORa&quot;</span>, <span class="n">106_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;JMPind&quot;</span>, <span class="n">108_u8</span>, <span class="n">5</span>}, {<span class="s">&quot;ADCabs&quot;</span>, <span class="n">109_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;RORabs&quot;</span>, <span class="n">110_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;BVS&quot;</span>, <span class="n">112_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;ADCindy&quot;</span>, <span class="n">113_u8</span>, <span class="n">5</span>}, {<span class="s">&quot;ADCzpgx&quot;</span>, <span class="n">117_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;RORzpgx&quot;</span>, <span class="n">118_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;SEI&quot;</span>, <span class="n">120_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;ADCabsy&quot;</span>, <span class="n">121_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;ADCabsx&quot;</span>, <span class="n">125_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;RORabsx&quot;</span>, <span class="n">126_u8</span>, <span class="n">7</span>}, {<span class="s">&quot;STAindx&quot;</span>, <span class="n">129_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;STYzpg&quot;</span>, <span class="n">132_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;STAzpg&quot;</span>, <span class="n">133_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;STXzpg&quot;</span>, <span class="n">134_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;DEY&quot;</span>, <span class="n">136_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;TXA&quot;</span>, <span class="n">138_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;STYabs&quot;</span>, <span class="n">140_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;STAabs&quot;</span>, <span class="n">141_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;STXabs&quot;</span>, <span class="n">142_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;BCC&quot;</span>, <span class="n">144_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;STAindy&quot;</span>, <span class="n">145_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;STYzpgx&quot;</span>, <span class="n">148_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;STAzpgx&quot;</span>, <span class="n">149_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;STXzpgy&quot;</span>, <span class="n">150_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;TYA&quot;</span>, <span class="n">152_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;STAabsy&quot;</span>, <span class="n">153_u8</span>, <span class="n">5</span>}, {<span class="s">&quot;TXS&quot;</span>, <span class="n">154_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;STAabsx&quot;</span>, <span class="n">157_u8</span>, <span class="n">5</span>}, {<span class="s">&quot;LDYi&quot;</span>, <span class="n">160_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;LDAindx&quot;</span>, <span class="n">161_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;LDXi&quot;</span>, <span class="n">162_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;LDYzpg&quot;</span>, <span class="n">164_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;LDAzpg&quot;</span>, <span class="n">165_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;LDXzpg&quot;</span>, <span class="n">166_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;TAY&quot;</span>, <span class="n">168_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;LDAi&quot;</span>, <span class="n">169_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;TAX&quot;</span>, <span class="n">170_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;LDYabs&quot;</span>, <span class="n">172_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;LDAabs&quot;</span>, <span class="n">173_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;LDXabs&quot;</span>, <span class="n">174_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;BCS&quot;</span>, <span class="n">176_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;LDAindy&quot;</span>, <span class="n">177_u8</span>, <span class="n">5</span>}, {<span class="s">&quot;LDYzpgx&quot;</span>, <span class="n">180_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;LDAzpgx&quot;</span>, <span class="n">181_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;LDXzpgy&quot;</span>, <span class="n">182_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;CLV&quot;</span>, <span class="n">184_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;LDAabsy&quot;</span>, <span class="n">185_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;TSX&quot;</span>, <span class="n">186_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;LDYabsx&quot;</span>, <span class="n">188_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;LDAabsx&quot;</span>, <span class="n">189_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;LDXabsy&quot;</span>, <span class="n">190_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;CPYi&quot;</span>, <span class="n">192_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;CMPindx&quot;</span>, <span class="n">193_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;CPYzpg&quot;</span>, <span class="n">196_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;CMPzpg&quot;</span>, <span class="n">197_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;DECzpg&quot;</span>, <span class="n">198_u8</span>, <span class="n">5</span>}, {<span class="s">&quot;INY&quot;</span>, <span class="n">200_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;CMPi&quot;</span>, <span class="n">201_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;DEX&quot;</span>, <span class="n">202_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;CPYabs&quot;</span>, <span class="n">204_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;CMPabs&quot;</span>, <span class="n">205_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;DECabs&quot;</span>, <span class="n">206_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;BNE&quot;</span>, <span class="n">208_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;CMPindy&quot;</span>, <span class="n">209_u8</span>, <span class="n">5</span>}, {<span class="s">&quot;CMPzpgx&quot;</span>, <span class="n">213_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;DECzpgx&quot;</span>, <span class="n">214_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;CLD&quot;</span>, <span class="n">216_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;CMPabsy&quot;</span>, <span class="n">217_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;CMPabsx&quot;</span>, <span class="n">221_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;DECabsx&quot;</span>, <span class="n">222_u8</span>, <span class="n">7</span>}, {<span class="s">&quot;CPXi&quot;</span>, <span class="n">224_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;SBCindx&quot;</span>, <span class="n">225_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;CPXzpg&quot;</span>, <span class="n">228_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;SBCzpg&quot;</span>, <span class="n">229_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;INCzpg&quot;</span>, <span class="n">230_u8</span>, <span class="n">5</span>}, {<span class="s">&quot;INX&quot;</span>, <span class="n">232_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;SBCi&quot;</span>, <span class="n">233_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;NOP&quot;</span>, <span class="n">234_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;CPXabs&quot;</span>, <span class="n">236_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;SBCabs&quot;</span>, <span class="n">237_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;INCabs&quot;</span>, <span class="n">238_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;BEQ&quot;</span>, <span class="n">240_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;SBCindy&quot;</span>, <span class="n">241_u8</span>, <span class="n">5</span>}, {<span class="s">&quot;SBCzpgx&quot;</span>, <span class="n">245_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;INCzpgx&quot;</span>, <span class="n">246_u8</span>, <span class="n">6</span>}, {<span class="s">&quot;SED&quot;</span>, <span class="n">248_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;SBCabsy&quot;</span>, <span class="n">249_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;SBCabsx&quot;</span>, <span class="n">253_u8</span>, <span class="n">4</span>}, {<span class="s">&quot;INCabsx&quot;</span>, <span class="n">254_u8</span>, <span class="n">7</span>}, {<span class="s">&quot;PRTzpg&quot;</span>, <span class="n">2_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;PRTabs&quot;</span>, <span class="n">3_u8</span>, <span class="n">3</span>}, {<span class="s">&quot;LOG&quot;</span>, <span class="n">4_u8</span>, <span class="n">10</span>}, {<span class="s">&quot;STP&quot;</span>, <span class="n">7_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;BCClabel&quot;</span>, <span class="n">11_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;BCSlabel&quot;</span>, <span class="n">27_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;BEQlabel&quot;</span>, <span class="n">43_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;BMIlabel&quot;</span>, <span class="n">59_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;BNElabel&quot;</span>, <span class="n">75_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;BPLlabel&quot;</span>, <span class="n">91_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;BVClabel&quot;</span>, <span class="n">107_u8</span>, <span class="n">2</span>}, {<span class="s">&quot;BVSlabel&quot;</span>, <span class="n">123_u8</span>, <span class="n">2</span>}]</code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>List of instructions sorted by its opcode</p>
+<p>Format is {&quot;InstructionName&quot;, opcode, cycle length, byte length}</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="KEYWORDS">
+        <strong>KEYWORDS</strong> = <code>{<span class="s">&quot;ADC&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">ADC</span>, <span class="s">&quot;AND&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">AND</span>, <span class="s">&quot;ASL&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">ASL</span>, <span class="s">&quot;BCC&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">BCC</span>, <span class="s">&quot;BCS&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">BCS</span>, <span class="s">&quot;BEQ&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">BEQ</span>, <span class="s">&quot;BIT&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">BIT</span>, <span class="s">&quot;BMI&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">BMI</span>, <span class="s">&quot;BNE&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">BNE</span>, <span class="s">&quot;BPL&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">BPL</span>, <span class="s">&quot;BRK&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">BRK</span>, <span class="s">&quot;BVC&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">BVC</span>, <span class="s">&quot;BVS&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">BVS</span>, <span class="s">&quot;CLC&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">CLC</span>, <span class="s">&quot;CLD&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">CLD</span>, <span class="s">&quot;CLI&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">CLI</span>, <span class="s">&quot;CLV&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">CLV</span>, <span class="s">&quot;CMP&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">CMP</span>, <span class="s">&quot;CPX&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">CPX</span>, <span class="s">&quot;CPY&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">CPY</span>, <span class="s">&quot;DEC&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">DEC</span>, <span class="s">&quot;DEX&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">DEX</span>, <span class="s">&quot;DEY&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">DEY</span>, <span class="s">&quot;EOR&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">EOR</span>, <span class="s">&quot;INC&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">INC</span>, <span class="s">&quot;INX&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">INX</span>, <span class="s">&quot;INY&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">INY</span>, <span class="s">&quot;JMP&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">JMP</span>, <span class="s">&quot;JSR&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">JSR</span>, <span class="s">&quot;LDA&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">LDA</span>, <span class="s">&quot;LDX&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">LDX</span>, <span class="s">&quot;LDY&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">LDY</span>, <span class="s">&quot;LSR&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">LSR</span>, <span class="s">&quot;NOP&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">NOP</span>, <span class="s">&quot;ORA&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">ORA</span>, <span class="s">&quot;PHA&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">PHA</span>, <span class="s">&quot;PHP&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">PHP</span>, <span class="s">&quot;PLA&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">PLA</span>, <span class="s">&quot;PLP&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">PLP</span>, <span class="s">&quot;ROL&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">ROL</span>, <span class="s">&quot;ROR&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">ROR</span>, <span class="s">&quot;RTI&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">RTI</span>, <span class="s">&quot;RTS&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">RTS</span>, <span class="s">&quot;SBC&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">SBC</span>, <span class="s">&quot;SEC&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">SEC</span>, <span class="s">&quot;SED&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">SED</span>, <span class="s">&quot;SEI&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">SEI</span>, <span class="s">&quot;STA&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">STA</span>, <span class="s">&quot;STX&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">STX</span>, <span class="s">&quot;STY&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">STY</span>, <span class="s">&quot;TAX&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">TAX</span>, <span class="s">&quot;TAY&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">TAY</span>, <span class="s">&quot;TSX&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">TSX</span>, <span class="s">&quot;TXA&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">TXA</span>, <span class="s">&quot;TXS&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">TXS</span>, <span class="s">&quot;TYA&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">TYA</span>, <span class="s">&quot;PRT&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">PRT</span>, <span class="s">&quot;LOG&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">LOG</span>, <span class="s">&quot;STP&quot;</span> <span class="o">=&gt;</span> <span class="t">TokenType</span><span class="t">::</span><span class="t">STP</span>}</code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>The keywords for the tokens, used when parsing</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="RES_LOCATION">
+        <strong>RES_LOCATION</strong> = <code><span class="n">65532_u16</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>Vector address for RESET</p>
+      </dd>
+      
+    
+  </dl>
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28clock_cycle_mhz%3AFloat%3D1.79%2Creset%3AUInt16%3D0%2Cbrk%3AUInt16%3D0%29-class-method" class="signature"><strong>.new</strong>(clock_cycle_mhz : Float = <span class="n">1.79</span>, reset : UInt16 = <span class="n">0</span>, brk : UInt16 = <span class="n">0</span>)</a>
+        
+          <div class="summary"><p>Creates a 6502 CPU</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>
+    <a id="macro-summary" class="anchor" href="#macro-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Macro Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#parse_address-macro" class="signature"><strong>parse_address</strong></a>
+        
+          <div class="summary"><p>Parses the address of the line of code</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#parse_address_mode-macro" class="signature"><strong>parse_address_mode</strong></a>
+        
+          <div class="summary"><p>Parses the address mode of the current line of code</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#accumulator%3AUInt8-instance-method" class="signature"><strong>#accumulator</strong> : UInt8</a>
+        
+          <div class="summary"><p>The 8-bit accumulator.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#adc%28m_value%3AUInt8%29-instance-method" class="signature"><strong>#adc</strong>(m_value : UInt8)</a>
+        
+          <div class="summary"><p>Add with Carry</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#add_instruction%28hex%3AUInt8%7CUInt16%29-instance-method" class="signature"><strong>#add_instruction</strong>(hex : UInt8 | UInt16)</a>
+        
+          <div class="summary"><p>Adds an instruction, given it's opcode, into the current location in memory of the <code><a href="CPU.html#program_counter%3AUInt16-instance-method">CPU#program_counter</a></code> and increments the <code><a href="CPU.html#program_counter%3AUInt16-instance-method">CPU#program_counter</a></code> by the byte length of the given hex</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#and%28m_value%3AUInt8%29-instance-method" class="signature"><strong>#and</strong>(m_value : UInt8)</a>
+        
+          <div class="summary"><p>Bitwise AND with Accumulator</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#asl%28m_value%3AUInt8%2Cm%3AUInt16%7CUInt8%2Caccumulator%3ABool%3Dfalse%29-instance-method" class="signature"><strong>#asl</strong>(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = <span class="n">false</span>)</a>
+        
+          <div class="summary"><p>Arithmetic Shift Left</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#bcc%28m_value%3AUInt8%7CUInt16%29-instance-method" class="signature"><strong>#bcc</strong>(m_value : UInt8 | UInt16)</a>
+        
+          <div class="summary"><p>Branch on Carry Clear</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#bcd%28byte%3AUInt8%7CInt8%29-instance-method" class="signature"><strong>#bcd</strong>(byte : UInt8 | Int8)</a>
+        
+          <div class="summary"><p>Calculates a byte into a <a href="https://www.csh.rit.edu/~moffitt/docs/6502.html#BCD">Binary Coded Decimal (BCD)</a></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#bcs%28m_value%3AUInt8%7CUInt16%29-instance-method" class="signature"><strong>#bcs</strong>(m_value : UInt8 | UInt16)</a>
+        
+          <div class="summary"><p>Branch on Carry Set</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#beq%28m_value%3AUInt8%7CUInt16%29-instance-method" class="signature"><strong>#beq</strong>(m_value : UInt8 | UInt16)</a>
+        
+          <div class="summary"><p>Branch on Equal</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#bit%28m_value%3AUInt8%29-instance-method" class="signature"><strong>#bit</strong>(m_value : UInt8)</a>
+        
+          <div class="summary"><p>Test Bits</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#bmi%28m_value%3AUInt8%7CUInt16%29-instance-method" class="signature"><strong>#bmi</strong>(m_value : UInt8 | UInt16)</a>
+        
+          <div class="summary"><p>Branch on Minus</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#bne%28m_value%3AUInt8%7CUInt16%29-instance-method" class="signature"><strong>#bne</strong>(m_value : UInt8 | UInt16)</a>
+        
+          <div class="summary"><p>Branch on Not Equal</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#bpl%28m_value%3AUInt8%7CUInt16%29-instance-method" class="signature"><strong>#bpl</strong>(m_value : UInt8 | UInt16)</a>
+        
+          <div class="summary"><p>Branch on Plus</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#brk-instance-method" class="signature"><strong>#brk</strong></a>
+        
+          <div class="summary"><p>Break</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#bvc%28m_value%3AUInt8%7CUInt16%29-instance-method" class="signature"><strong>#bvc</strong>(m_value : UInt8 | UInt16)</a>
+        
+          <div class="summary"><p>Branch on Overflow Clear</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#bvs%28m_value%3AUInt8%7CUInt16%29-instance-method" class="signature"><strong>#bvs</strong>(m_value : UInt8 | UInt16)</a>
+        
+          <div class="summary"><p>Branch on Overflow Set</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#clc-instance-method" class="signature"><strong>#clc</strong></a>
+        
+          <div class="summary"><p>Clear Carry</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#cld-instance-method" class="signature"><strong>#cld</strong></a>
+        
+          <div class="summary"><p>Clear Decimal</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#cli-instance-method" class="signature"><strong>#cli</strong></a>
+        
+          <div class="summary"><p>Clear Interrupt</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#clock_cycle_mhz%3AFloat64-instance-method" class="signature"><strong>#clock_cycle_mhz</strong> : Float64</a>
+        
+          <div class="summary"><p>The clock cycle in megahertz to run at.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#clv-instance-method" class="signature"><strong>#clv</strong></a>
+        
+          <div class="summary"><p>Clear Overflow</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#cmp%28m_value%3AUInt8%29-instance-method" class="signature"><strong>#cmp</strong>(m_value : UInt8)</a>
+        
+          <div class="summary"><p>Compare Accumulator</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#cpx%28m_value%3AUInt8%29-instance-method" class="signature"><strong>#cpx</strong>(m_value : UInt8)</a>
+        
+          <div class="summary"><p>Compare X Register</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#cpy%28m_value%3AUInt8%29-instance-method" class="signature"><strong>#cpy</strong>(m_value : UInt8)</a>
+        
+          <div class="summary"><p>Compare Y Register</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#dec%28m_value%3AUInt8%2Cm%3AUInt16%7CUInt8%29-instance-method" class="signature"><strong>#dec</strong>(m_value : UInt8, m : UInt16 | UInt8)</a>
+        
+          <div class="summary"><p>Decrement Memory</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#dex-instance-method" class="signature"><strong>#dex</strong></a>
+        
+          <div class="summary"><p>Decrement X</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#dey-instance-method" class="signature"><strong>#dey</strong></a>
+        
+          <div class="summary"><p>Decrement Y</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#eor%28m_value%3AUInt8%29-instance-method" class="signature"><strong>#eor</strong>(m_value : UInt8)</a>
+        
+          <div class="summary"><p>Bitwise Exclusive-OR with Accumulator</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#execute%28end_on_tight_loop%3ABool%3Dtrue%2Creset%3ABool%3Dtrue%29-instance-method" class="signature"><strong>#execute</strong>(end_on_tight_loop : Bool = <span class="n">true</span>, reset : Bool = <span class="n">true</span>)</a>
+        
+          <div class="summary"><p>Runs all instructions</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#flags%3AUInt8-instance-method" class="signature"><strong>#flags</strong> : UInt8</a>
+        
+          <div class="summary"><p>The CPU's 7 flag bits</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_flag%28flag%3AFlags%29%3ABool-instance-method" class="signature"><strong>#get_flag</strong>(flag : Flags) : Bool</a>
+        
+          <div class="summary"><p>Gets a the value of a bit in <code><a href="CPU.html#flags%3AUInt8-instance-method">#flags</a></code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_ind%28address%3AInt%29-instance-method" class="signature"><strong>#get_ind</strong>(address : Int)</a>
+        
+          <div class="summary"><p>Gets the Indirect Address of a given address</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_indx%28address%3AInt%29-instance-method" class="signature"><strong>#get_indx</strong>(address : Int)</a>
+        
+          <div class="summary"><p>Gets the Indirect X Address of a given address</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#get_indy%28address%3AInt%29-instance-method" class="signature"><strong>#get_indy</strong>(address : Int)</a>
+        
+          <div class="summary"><p>Gets the Indirect Y Address of a given address</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#inc%28m_value%3AUInt8%2Cm%3AUInt16%7CUInt8%29-instance-method" class="signature"><strong>#inc</strong>(m_value : UInt8, m : UInt16 | UInt8)</a>
+        
+          <div class="summary"><p>Increment Memory</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#inx-instance-method" class="signature"><strong>#inx</strong></a>
+        
+          <div class="summary"><p>Increment X</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#iny-instance-method" class="signature"><strong>#iny</strong></a>
+        
+          <div class="summary"><p>Increment Y</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#jmp%28m_value%3AUInt16%29-instance-method" class="signature"><strong>#jmp</strong>(m_value : UInt16)</a>
+        
+          <div class="summary"><p>Jump</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#jsr%28address%3AUInt16%29-instance-method" class="signature"><strong>#jsr</strong>(address : UInt16)</a>
+        
+          <div class="summary"><p>Jump Saving Return</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#lda%28m_value%3AUInt8%29-instance-method" class="signature"><strong>#lda</strong>(m_value : UInt8)</a>
+        
+          <div class="summary"><p>Load Accumulator</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ldx%28m_value%3AUInt8%29-instance-method" class="signature"><strong>#ldx</strong>(m_value : UInt8)</a>
+        
+          <div class="summary"><p>Load X Register</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ldy%28m_value%3AUInt8%29-instance-method" class="signature"><strong>#ldy</strong>(m_value : UInt8)</a>
+        
+          <div class="summary"><p>Load Y Register</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#load_asm%28code%3AString%2Cstart_location%3AUInt16%3D%28peek%28RES_LOCATION%2Ctrue%29%29.to_u16%29-instance-method" class="signature"><strong>#load_asm</strong>(code : String, start_location : UInt16 = (peek(<span class="t">RES_LOCATION</span>, <span class="n">true</span>)).to_u16)</a>
+        
+          <div class="summary"><p>Loads 6502 assembly instructions</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#log-instance-method" class="signature"><strong>#log</strong></a>
+        
+          <div class="summary"><p>Prints out information about the CPU in its current state</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#lsr%28m_value%3AUInt8%2Cm%3AUInt16%7CUInt8%2Caccumulator%3ABool%3Dfalse%29-instance-method" class="signature"><strong>#lsr</strong>(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = <span class="n">false</span>)</a>
+        
+          <div class="summary"><p>Logical Shift Right</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#memory%3AIO%3A%3AMemory-instance-method" class="signature"><strong>#memory</strong> : IO::Memory</a>
+        
+          <div class="summary"><p>The 64kb (65536 bytes) of accessible memory</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#nop-instance-method" class="signature"><strong>#nop</strong></a>
+        
+          <div class="summary"><p>No Operation</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ora%28m_value%3AUInt8%29-instance-method" class="signature"><strong>#ora</strong>(m_value : UInt8)</a>
+        
+          <div class="summary"><p>Bitwise OR with Accumulator</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#peek%28mem_location%3AInt%2Ctwo_byte%3ABool%3Dfalse%29-instance-method" class="signature"><strong>#peek</strong>(mem_location : Int, two_byte : Bool = <span class="n">false</span>)</a>
+        
+          <div class="summary"><p>Reads a value from memory.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pha-instance-method" class="signature"><strong>#pha</strong></a>
+        
+          <div class="summary"><p>Push Accumulator</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#php-instance-method" class="signature"><strong>#php</strong></a>
+        
+          <div class="summary"><p>Push Processor Status (<code><a href="CPU.html#flags%3AUInt8-instance-method">CPU#flags</a></code>)</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pla-instance-method" class="signature"><strong>#pla</strong></a>
+        
+          <div class="summary"><p>Pull Accumulator</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#plp-instance-method" class="signature"><strong>#plp</strong></a>
+        
+          <div class="summary"><p>Pull Processor Status</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#poke%28mem_location%3AInt%2Cdata%3AUInt8%7CUInt16%29-instance-method" class="signature"><strong>#poke</strong>(mem_location : Int, data : UInt8 | UInt16)</a>
+        
+          <div class="summary"><p>Pokes a value into a location in memory</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#print_memory%28start_pos%3AInt%3D0%2Clength%3AInt%3D65536%29-instance-method" class="signature"><strong>#print_memory</strong>(start_pos : Int = <span class="n">0</span>, length : Int = <span class="n">65536</span>)</a>
+        
+          <div class="summary"><p>Prints out the current memory.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#program_counter%3AUInt16-instance-method" class="signature"><strong>#program_counter</strong> : UInt16</a>
+        
+          <div class="summary"><p>The 16-bit program counter which points to the next instruction in memory to execute.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#prt%28value_to_print%3AUInt8%7CUInt16%29-instance-method" class="signature"><strong>#prt</strong>(value_to_print : UInt8 | UInt16)</a>
+        
+          <div class="summary"><p>Print a 8-bit or 16-bit value.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rol%28m_value%3AUInt8%2Cm%3AUInt16%7CUInt8%2Caccumulator%3ABool%3Dfalse%29-instance-method" class="signature"><strong>#rol</strong>(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = <span class="n">false</span>)</a>
+        
+          <div class="summary"><p>Rotate Left</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ror%28m_value%3AUInt8%2Cm%3AUInt16%7CUInt8%2Caccumulator%3ABool%3Dfalse%29-instance-method" class="signature"><strong>#ror</strong>(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = <span class="n">false</span>)</a>
+        
+          <div class="summary"><p>Rotate Right</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rti-instance-method" class="signature"><strong>#rti</strong></a>
+        
+          <div class="summary"><p>Return from Interrupt</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rts-instance-method" class="signature"><strong>#rts</strong></a>
+        
+          <div class="summary"><p>Return to Saved</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#run_instruction-instance-method" class="signature"><strong>#run_instruction</strong></a>
+        
+          <div class="summary"><p>Runs the current value of <code><a href="CPU.html#program_counter%3AUInt16-instance-method">CPU#program_counter</a></code>'s location in memory as an instruction</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#sbc%28m_value%3AUInt8%29-instance-method" class="signature"><strong>#sbc</strong>(m_value : UInt8)</a>
+        
+          <div class="summary"><p>Subtract with Carry</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#sec-instance-method" class="signature"><strong>#sec</strong></a>
+        
+          <div class="summary"><p>Set Carry</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#sed-instance-method" class="signature"><strong>#sed</strong></a>
+        
+          <div class="summary"><p>Set Decimal</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#sei-instance-method" class="signature"><strong>#sei</strong></a>
+        
+          <div class="summary"><p>Set Interrupt</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#set_flag%28flag%3AFlags%2Cset%3ABool%29-instance-method" class="signature"><strong>#set_flag</strong>(flag : Flags, set : Bool)</a>
+        
+          <div class="summary"><p>Sets the value of a bit in <code><a href="CPU.html#flags%3AUInt8-instance-method">#flags</a></code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#sta%28m%3AUInt16%7CUInt8%29-instance-method" class="signature"><strong>#sta</strong>(m : UInt16 | UInt8)</a>
+        
+          <div class="summary"><p>Store Accumulator</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#stack_pointer%3AUInt8-instance-method" class="signature"><strong>#stack_pointer</strong> : UInt8</a>
+        
+          <div class="summary"><p>The 8-bit stack pointer which points to the current position in the Stack.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#step%28end_on_tight_loop%3ABool%3Dtrue%29-instance-method" class="signature"><strong>#step</strong>(end_on_tight_loop : Bool = <span class="n">true</span>)</a>
+        
+          <div class="summary"><p>Runs the next instruction</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#stp-instance-method" class="signature"><strong>#stp</strong></a>
+        
+          <div class="summary"><p>Stops any active running <code><a href="CPU.html#execute%28end_on_tight_loop%3ABool%3Dtrue%2Creset%3ABool%3Dtrue%29-instance-method">CPU#execute</a></code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#stx%28m%3AUInt16%7CUInt8%29-instance-method" class="signature"><strong>#stx</strong>(m : UInt16 | UInt8)</a>
+        
+          <div class="summary"><p>Store X Register</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#sty%28m%3AUInt16%7CUInt8%29-instance-method" class="signature"><strong>#sty</strong>(m : UInt16 | UInt8)</a>
+        
+          <div class="summary"><p>Store Y Register</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#tax-instance-method" class="signature"><strong>#tax</strong></a>
+        
+          <div class="summary"><p>Transfer A to X</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#tay-instance-method" class="signature"><strong>#tay</strong></a>
+        
+          <div class="summary"><p>Transfer A to Y</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#tsx-instance-method" class="signature"><strong>#tsx</strong></a>
+        
+          <div class="summary"><p>Transfer Stack Pointer to X</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#txa-instance-method" class="signature"><strong>#txa</strong></a>
+        
+          <div class="summary"><p>Tranfer X to A</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#txs-instance-method" class="signature"><strong>#txs</strong></a>
+        
+          <div class="summary"><p>Transfer X to Stack Pointer</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#tya-instance-method" class="signature"><strong>#tya</strong></a>
+        
+          <div class="summary"><p>Transfer Y to A</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#x_index%3AUInt8-instance-method" class="signature"><strong>#x_index</strong> : UInt8</a>
+        
+          <div class="summary"><p>The 8-bit x index register</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#y_index%3AUInt8-instance-method" class="signature"><strong>#y_index</strong> : UInt8</a>
+        
+          <div class="summary"><p>The 8-bit y index register</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(clock_cycle_mhz:Float=1.79,reset:UInt16=0,brk:UInt16=0)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(clock_cycle_mhz : Float = <span class="n">1.79</span>, reset : UInt16 = <span class="n">0</span>, brk : UInt16 = <span class="n">0</span>)
+
+        <a class="method-permalink" href="#new%28clock_cycle_mhz%3AFloat%3D1.79%2Creset%3AUInt16%3D0%2Cbrk%3AUInt16%3D0%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Creates a 6502 CPU</p>
+<p>The clock cycle is set in megahertz</p>
+<p><code>reset</code> is the value set at <code><a href="CPU.html#RES_LOCATION">RES_LOCATION</a></code> and is used to find where the <code><a href="CPU.html#program_counter%3AUInt16-instance-method">#program_counter</a></code> should start</p>
+<p><code><a href="CPU.html#brk-instance-method">#brk</a></code> is the value set at <code><a href="CPU.html#BRK_LOCATION">BRK_LOCATION</a></code> and is used to find where <code><a href="CPU.html#brk-instance-method">CPU#brk</a></code> should goto</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L233" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>
+    <a id="macro-detail" class="anchor" href="#macro-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Macro Detail
+  </h2>
+  
+    <div class="entry-detail" id="parse_address-macro">
+      <div class="signature">
+        
+        macro <strong>parse_address</strong>
+
+        <a class="method-permalink" href="#parse_address-macro">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Parses the address of the line of code</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser.cr#L59" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="parse_address_mode-macro">
+      <div class="signature">
+        
+        macro <strong>parse_address_mode</strong>
+
+        <a class="method-permalink" href="#parse_address_mode-macro">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Parses the address mode of the current line of code</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser.cr#L3" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="accumulator:UInt8-instance-method">
+      <div class="signature">
+        
+        def <strong>accumulator</strong> : UInt8
+
+        <a class="method-permalink" href="#accumulator%3AUInt8-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The 8-bit accumulator. Used in arithmetic operations</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L190" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="adc(m_value:UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>adc</strong>(m_value : UInt8)
+
+        <a class="method-permalink" href="#adc%28m_value%3AUInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Add with Carry</p>
+<p>ADC behavior depends on the state of the <code><a href="CPU/Flags.html#DecimalMode">CPU::Flags::DecimalMode</a></code> flag. In decimal mode, the values upon which the addition is performed are interpreted as packed BCD (Binary Coded Decimal).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/math_instructions.cr#L5" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="add_instruction(hex:UInt8|UInt16)-instance-method">
+      <div class="signature">
+        
+        def <strong>add_instruction</strong>(hex : UInt8 | UInt16)
+
+        <a class="method-permalink" href="#add_instruction%28hex%3AUInt8%7CUInt16%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Adds an instruction, given it's opcode, into the current location in memory of the <code><a href="CPU.html#program_counter%3AUInt16-instance-method">CPU#program_counter</a></code> and increments the <code><a href="CPU.html#program_counter%3AUInt16-instance-method">CPU#program_counter</a></code> by the byte length of the given hex</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions.cr#L186" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="and(m_value:UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>and</strong>(m_value : UInt8)
+
+        <a class="method-permalink" href="#and%28m_value%3AUInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Bitwise AND with Accumulator</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/bitwise_instructions.cr#L3" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="asl(m_value:UInt8,m:UInt16|UInt8,accumulator:Bool=false)-instance-method">
+      <div class="signature">
+        
+        def <strong>asl</strong>(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = <span class="n">false</span>)
+
+        <a class="method-permalink" href="#asl%28m_value%3AUInt8%2Cm%3AUInt16%7CUInt8%2Caccumulator%3ABool%3Dfalse%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Arithmetic Shift Left</p>
+<p>ASL shifts all bits left one position.
+0 is shifted into bit 0 and the original bit 7 is shifted into the Carry.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/bitwise_instructions.cr#L27" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="bcc(m_value:UInt8|UInt16)-instance-method">
+      <div class="signature">
+        
+        def <strong>bcc</strong>(m_value : UInt8 | UInt16)
+
+        <a class="method-permalink" href="#bcc%28m_value%3AUInt8%7CUInt16%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Branch on Carry Clear</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/branch_instructions.cr#L40" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="bcd(byte:UInt8|Int8)-instance-method">
+      <div class="signature">
+        
+        def <strong>bcd</strong>(byte : UInt8 | Int8)
+
+        <a class="method-permalink" href="#bcd%28byte%3AUInt8%7CInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Calculates a byte into a <a href="https://www.csh.rit.edu/~moffitt/docs/6502.html#BCD">Binary Coded Decimal (BCD)</a></p>
+<p>BCD is whereby the upper and lower nibbles (4-bits) of a byte (8-bits) are treated as two digits in a decimal number;</p>
+<p>The upper nibble contains the number from the 'tens column'; and the lower nibble, the number from the 'units column'</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L296" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="bcs(m_value:UInt8|UInt16)-instance-method">
+      <div class="signature">
+        
+        def <strong>bcs</strong>(m_value : UInt8 | UInt16)
+
+        <a class="method-permalink" href="#bcs%28m_value%3AUInt8%7CUInt16%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Branch on Carry Set</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/branch_instructions.cr#L100" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="beq(m_value:UInt8|UInt16)-instance-method">
+      <div class="signature">
+        
+        def <strong>beq</strong>(m_value : UInt8 | UInt16)
+
+        <a class="method-permalink" href="#beq%28m_value%3AUInt8%7CUInt16%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Branch on Equal</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/branch_instructions.cr#L115" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="bit(m_value:UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>bit</strong>(m_value : UInt8)
+
+        <a class="method-permalink" href="#bit%28m_value%3AUInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Test Bits</p>
+<p>BIT sets the Z flag as though the value in the address tested were ANDed with the accumulator.</p>
+<p>The N and V flags are set equal to bits 7 and 6 respectively of the value in the tested address.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/compare_instructions.cr#L39" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="bmi(m_value:UInt8|UInt16)-instance-method">
+      <div class="signature">
+        
+        def <strong>bmi</strong>(m_value : UInt8 | UInt16)
+
+        <a class="method-permalink" href="#bmi%28m_value%3AUInt8%7CUInt16%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Branch on Minus</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/branch_instructions.cr#L70" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="bne(m_value:UInt8|UInt16)-instance-method">
+      <div class="signature">
+        
+        def <strong>bne</strong>(m_value : UInt8 | UInt16)
+
+        <a class="method-permalink" href="#bne%28m_value%3AUInt8%7CUInt16%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Branch on Not Equal</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/branch_instructions.cr#L55" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="bpl(m_value:UInt8|UInt16)-instance-method">
+      <div class="signature">
+        
+        def <strong>bpl</strong>(m_value : UInt8 | UInt16)
+
+        <a class="method-permalink" href="#bpl%28m_value%3AUInt8%7CUInt16%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Branch on Plus</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/branch_instructions.cr#L10" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="brk-instance-method">
+      <div class="signature">
+        
+        def <strong>brk</strong>
+
+        <a class="method-permalink" href="#brk-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Break</p>
+<p>BRK sets the B flag, and then generates a forced interrupt. The Interrupt flag is ignored and the CPU goes through the normal interrupt process. In the interrupt service routine, the state of the B flag can be used to distinguish a BRK from a standard interrupt.</p>
+<p>BRK causes a non-maskable interrupt and increments the program counter by one. Therefore an <code><a href="CPU.html#rti-instance-method">CPU#rti</a></code> will go to the address of the BRK +2 so that BRK may be used to replace a two-byte instruction for debugging and the subsequent RTI will be correct.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/other_instructions.cr#L7" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="bvc(m_value:UInt8|UInt16)-instance-method">
+      <div class="signature">
+        
+        def <strong>bvc</strong>(m_value : UInt8 | UInt16)
+
+        <a class="method-permalink" href="#bvc%28m_value%3AUInt8%7CUInt16%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Branch on Overflow Clear</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/branch_instructions.cr#L25" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="bvs(m_value:UInt8|UInt16)-instance-method">
+      <div class="signature">
+        
+        def <strong>bvs</strong>(m_value : UInt8 | UInt16)
+
+        <a class="method-permalink" href="#bvs%28m_value%3AUInt8%7CUInt16%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Branch on Overflow Set</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/branch_instructions.cr#L85" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="clc-instance-method">
+      <div class="signature">
+        
+        def <strong>clc</strong>
+
+        <a class="method-permalink" href="#clc-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Clear Carry</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/flag_instructions.cr#L3" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="cld-instance-method">
+      <div class="signature">
+        
+        def <strong>cld</strong>
+
+        <a class="method-permalink" href="#cld-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Clear Decimal</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/flag_instructions.cr#L23" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="cli-instance-method">
+      <div class="signature">
+        
+        def <strong>cli</strong>
+
+        <a class="method-permalink" href="#cli-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Clear Interrupt</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/flag_instructions.cr#L13" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="clock_cycle_mhz:Float64-instance-method">
+      <div class="signature">
+        
+        def <strong>clock_cycle_mhz</strong> : Float64
+
+        <a class="method-permalink" href="#clock_cycle_mhz%3AFloat64-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The clock cycle in megahertz to run at.</p>
+<p>Defaults to the NES's 6502 speed, 1.79mhz.</p>
+<p>Set in <code>CPU#initialize</code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L216" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="clv-instance-method">
+      <div class="signature">
+        
+        def <strong>clv</strong>
+
+        <a class="method-permalink" href="#clv-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Clear Overflow</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/flag_instructions.cr#L33" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="cmp(m_value:UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>cmp</strong>(m_value : UInt8)
+
+        <a class="method-permalink" href="#cmp%28m_value%3AUInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Compare Accumulator</p>
+<p>Compare sets processor flags as if a subtraction had been carried out.</p>
+<p>If the accumulator and the compared value are equal, the result of the subtraction is zero and the Zero (Z) flag is set. If the accumulator is equal or greater than the compared value, the Carry (C) flag is set.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/compare_instructions.cr#L7" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="cpx(m_value:UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>cpx</strong>(m_value : UInt8)
+
+        <a class="method-permalink" href="#cpx%28m_value%3AUInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Compare X Register</p>
+<p>Operation and flag results are identical to equivalent mode accumulator <code><a href="CPU.html#cmp%28m_value%3AUInt8%29-instance-method">CPU#cmp</a></code> operations.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/compare_instructions.cr#L17" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="cpy(m_value:UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>cpy</strong>(m_value : UInt8)
+
+        <a class="method-permalink" href="#cpy%28m_value%3AUInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Compare Y Register</p>
+<p>Operation and flag results are identical to equivalent mode accumulator <code><a href="CPU.html#cmp%28m_value%3AUInt8%29-instance-method">CPU#cmp</a></code> operations.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/compare_instructions.cr#L27" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="dec(m_value:UInt8,m:UInt16|UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>dec</strong>(m_value : UInt8, m : UInt16 | UInt8)
+
+        <a class="method-permalink" href="#dec%28m_value%3AUInt8%2Cm%3AUInt16%7CUInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Decrement Memory</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/memory_instructions.cr#L24" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="dex-instance-method">
+      <div class="signature">
+        
+        def <strong>dex</strong>
+
+        <a class="method-permalink" href="#dex-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Decrement X</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/register_instructions.cr#L19" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="dey-instance-method">
+      <div class="signature">
+        
+        def <strong>dey</strong>
+
+        <a class="method-permalink" href="#dey-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Decrement Y</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/register_instructions.cr#L47" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="eor(m_value:UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>eor</strong>(m_value : UInt8)
+
+        <a class="method-permalink" href="#eor%28m_value%3AUInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Bitwise Exclusive-OR with Accumulator</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/bitwise_instructions.cr#L10" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="execute(end_on_tight_loop:Bool=true,reset:Bool=true)-instance-method">
+      <div class="signature">
+        
+        def <strong>execute</strong>(end_on_tight_loop : Bool = <span class="n">true</span>, reset : Bool = <span class="n">true</span>)
+
+        <a class="method-permalink" href="#execute%28end_on_tight_loop%3ABool%3Dtrue%2Creset%3ABool%3Dtrue%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Runs all instructions</p>
+<p>If <code>end_on_tight_loop</code> is <code>true</code>, it will not step if the current instruction sets the <code><a href="CPU.html#program_counter%3AUInt16-instance-method">#program_counter</a></code> to itself, creating a tight loop</p>
+<p><span class="flag purple">NOTE</span>  A real 6502 does not end on tight loops, this is only used to ensure that a program doesn't run forever</p>
+<p>If <code>reset</code> is true, it will set the <code><a href="CPU.html#program_counter%3AUInt16-instance-method">CPU#program_counter</a></code> to its original value. If <code>reset</code> is false, it simply continues the code
+from the last instruction. This is only really matters when <code>end_on_tight_loop</code> is true or when using <code><a href="CPU.html#stp-instance-method">CPU#stp</a></code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L267" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="flags:UInt8-instance-method">
+      <div class="signature">
+        
+        def <strong>flags</strong> : UInt8
+
+        <a class="method-permalink" href="#flags%3AUInt8-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The CPU's 7 flag bits</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L210" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_flag(flag:Flags):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>get_flag</strong>(flag : <a href="CPU/Flags.html">Flags</a>) : Bool
+
+        <a class="method-permalink" href="#get_flag%28flag%3AFlags%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Gets a the value of a bit in <code><a href="CPU.html#flags%3AUInt8-instance-method">#flags</a></code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L315" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_ind(address:Int)-instance-method">
+      <div class="signature">
+        
+        def <strong>get_ind</strong>(address : Int)
+
+        <a class="method-permalink" href="#get_ind%28address%3AInt%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Gets the Indirect Address of a given address</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/addressing.cr#L45" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_indx(address:Int)-instance-method">
+      <div class="signature">
+        
+        def <strong>get_indx</strong>(address : Int)
+
+        <a class="method-permalink" href="#get_indx%28address%3AInt%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Gets the Indirect X Address of a given address</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/addressing.cr#L53" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="get_indy(address:Int)-instance-method">
+      <div class="signature">
+        
+        def <strong>get_indy</strong>(address : Int)
+
+        <a class="method-permalink" href="#get_indy%28address%3AInt%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Gets the Indirect Y Address of a given address</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/addressing.cr#L61" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="inc(m_value:UInt8,m:UInt16|UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>inc</strong>(m_value : UInt8, m : UInt16 | UInt8)
+
+        <a class="method-permalink" href="#inc%28m_value%3AUInt8%2Cm%3AUInt16%7CUInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Increment Memory</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/memory_instructions.cr#L46" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="inx-instance-method">
+      <div class="signature">
+        
+        def <strong>inx</strong>
+
+        <a class="method-permalink" href="#inx-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Increment X</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/register_instructions.cr#L26" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="iny-instance-method">
+      <div class="signature">
+        
+        def <strong>iny</strong>
+
+        <a class="method-permalink" href="#iny-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Increment Y</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/register_instructions.cr#L54" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="jmp(m_value:UInt16)-instance-method">
+      <div class="signature">
+        
+        def <strong>jmp</strong>(m_value : UInt16)
+
+        <a class="method-permalink" href="#jmp%28m_value%3AUInt16%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Jump</p>
+<p>JMP loads the program counter with the absolute address, or the address stored at the memory location of the indirect address. Program execution proceeds from the new program counter value.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/jump_instructions.cr#L5" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="jsr(address:UInt16)-instance-method">
+      <div class="signature">
+        
+        def <strong>jsr</strong>(address : UInt16)
+
+        <a class="method-permalink" href="#jsr%28address%3AUInt16%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Jump Saving Return</p>
+<p>JSR pushes the address-1 of the next operation to the stack before transferring the value of the argument to the program counter. JSR behaves just like a JMP, but saves the return address to the stack first, thus creating a subroutine.</p>
+<p>Subroutines are normally terminated by an <code><a href="CPU.html#rts-instance-method">CPU#rts</a></code> instruction.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/jump_instructions.cr#L14" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="lda(m_value:UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>lda</strong>(m_value : UInt8)
+
+        <a class="method-permalink" href="#lda%28m_value%3AUInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Load Accumulator</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/memory_instructions.cr#L3" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ldx(m_value:UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>ldx</strong>(m_value : UInt8)
+
+        <a class="method-permalink" href="#ldx%28m_value%3AUInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Load X Register</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/memory_instructions.cr#L10" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ldy(m_value:UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>ldy</strong>(m_value : UInt8)
+
+        <a class="method-permalink" href="#ldy%28m_value%3AUInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Load Y Register</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/memory_instructions.cr#L17" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="load_asm(code:String,start_location:UInt16=(peek(RES_LOCATION,true)).to_u16)-instance-method">
+      <div class="signature">
+        
+        def <strong>load_asm</strong>(code : String, start_location : UInt16 = (peek(<span class="t">RES_LOCATION</span>, <span class="n">true</span>)).to_u16)
+
+        <a class="method-permalink" href="#load_asm%28code%3AString%2Cstart_location%3AUInt16%3D%28peek%28RES_LOCATION%2Ctrue%29%29.to_u16%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Loads 6502 assembly instructions</p>
+<p>Uses ; for comments</p>
+<p>Works with labels <code>label:</code></p>
+<p>the <code>resvec:</code> label will set the value at <code><a href="CPU.html#RES_LOCATION">RES_LOCATION</a></code> to the label's memory location</p>
+<p>the <code>brkvec:</code> label will set the value at <code><a href="CPU.html#BRK_LOCATION">BRK_LOCATION</a></code> to the label's memory location</p>
+<p>You can also manually set the starting location to write the instructions at.
+Useful for appending or editing code</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/parser.cr#L86" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="log-instance-method">
+      <div class="signature">
+        
+        def <strong>log</strong>
+
+        <a class="method-permalink" href="#log-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Prints out information about the CPU in its current state</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/custom_instructions.cr#L22" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="lsr(m_value:UInt8,m:UInt16|UInt8,accumulator:Bool=false)-instance-method">
+      <div class="signature">
+        
+        def <strong>lsr</strong>(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = <span class="n">false</span>)
+
+        <a class="method-permalink" href="#lsr%28m_value%3AUInt8%2Cm%3AUInt16%7CUInt8%2Caccumulator%3ABool%3Dfalse%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Logical Shift Right</p>
+<p>LSR shifts all bits right one position.
+0 is shifted into bit 7 and the original bit 0 is shifted into the Carry.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/bitwise_instructions.cr#L42" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="memory:IO::Memory-instance-method">
+      <div class="signature">
+        
+        def <strong>memory</strong> : IO::Memory
+
+        <a class="method-permalink" href="#memory%3AIO%3A%3AMemory-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The 64kb (65536 bytes) of accessible memory</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L188" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="nop-instance-method">
+      <div class="signature">
+        
+        def <strong>nop</strong>
+
+        <a class="method-permalink" href="#nop-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>No Operation</p>
+<p>A NOP takes 2 machine cycles to execute, but it has no effect on any register, memory location, or processor flag. Thus, it takes up time and space but performs no operation.</p>
+<p>NOP can be used to reserve space for future modifications or to remove existing code without changing the memory locations of code that follows it.</p>
+<p>NOP can also be used in tightly timed code, to idly take up 2 cycles without having any other side effects.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/other_instructions.cr#L24" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ora(m_value:UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>ora</strong>(m_value : UInt8)
+
+        <a class="method-permalink" href="#ora%28m_value%3AUInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Bitwise OR with Accumulator</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/bitwise_instructions.cr#L17" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="peek(mem_location:Int,two_byte:Bool=false)-instance-method">
+      <div class="signature">
+        
+        def <strong>peek</strong>(mem_location : Int, two_byte : Bool = <span class="n">false</span>)
+
+        <a class="method-permalink" href="#peek%28mem_location%3AInt%2Ctwo_byte%3ABool%3Dfalse%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Reads a value from memory. Will read as a <code>UInt16</code> if <code>two_byte</code> is <code>true</code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L309" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="pha-instance-method">
+      <div class="signature">
+        
+        def <strong>pha</strong>
+
+        <a class="method-permalink" href="#pha-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <pre><code class="language-crystal"><span class="t">Push</span> <span class="t">Accumulator</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/stack_instructions.cr#L7" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="php-instance-method">
+      <div class="signature">
+        
+        def <strong>php</strong>
+
+        <a class="method-permalink" href="#php-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Push Processor Status (<code><a href="CPU.html#flags%3AUInt8-instance-method">CPU#flags</a></code>)</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/stack_instructions.cr#L13" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="pla-instance-method">
+      <div class="signature">
+        
+        def <strong>pla</strong>
+
+        <a class="method-permalink" href="#pla-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Pull Accumulator</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/stack_instructions.cr#L26" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="plp-instance-method">
+      <div class="signature">
+        
+        def <strong>plp</strong>
+
+        <a class="method-permalink" href="#plp-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Pull Processor Status</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/stack_instructions.cr#L34" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="poke(mem_location:Int,data:UInt8|UInt16)-instance-method">
+      <div class="signature">
+        
+        def <strong>poke</strong>(mem_location : Int, data : UInt8 | UInt16)
+
+        <a class="method-permalink" href="#poke%28mem_location%3AInt%2Cdata%3AUInt8%7CUInt16%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Pokes a value into a location in memory</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L303" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="print_memory(start_pos:Int=0,length:Int=65536)-instance-method">
+      <div class="signature">
+        
+        def <strong>print_memory</strong>(start_pos : Int = <span class="n">0</span>, length : Int = <span class="n">65536</span>)
+
+        <a class="method-permalink" href="#print_memory%28start_pos%3AInt%3D0%2Clength%3AInt%3D65536%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Prints out the current memory.</p>
+<p>Prints out 16 bytes per line. Therefore <code><a href="CPU.html#print_memory%28start_pos%3AInt%3D0%2Clength%3AInt%3D65536%29-instance-method">#print_memory(0x0F4, 1)</a></code> will print <code>0x0F40</code> through <code>0x0F4F</code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L378" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="program_counter:UInt16-instance-method">
+      <div class="signature">
+        
+        def <strong>program_counter</strong> : UInt16
+
+        <a class="method-permalink" href="#program_counter%3AUInt16-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The 16-bit program counter which points to the next instruction in memory to execute.</p>
+<p>Gets set after a command is read, but before it is executed.</p>
+<p>Meaning it points to the next instruction to execute, not the one that is currently executing</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L204" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="prt(value_to_print:UInt8|UInt16)-instance-method">
+      <div class="signature">
+        
+        def <strong>prt</strong>(value_to_print : UInt8 | UInt16)
+
+        <a class="method-permalink" href="#prt%28value_to_print%3AUInt8%7CUInt16%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Print a 8-bit or 16-bit value. Mainly used with string interpolation</p>
+<p>Example:</p>
+<pre><code class="language-crystal">cpu <span class="o">=</span> <span class="t">CPU</span>.new
+
+cpu.load_asm(<span class="s">&quot;
+prt </span><span class="i">#{</span>cpu.stack_pointer<span class="i">}</span><span class="s">
+&quot;</span>)
+
+cpu.execute <span class="c"># =&gt; puts &quot;Type: UInt8 | Hex: ff | Decimal 255 | Binary: 11111111&quot;</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/custom_instructions.cr#L15" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rol(m_value:UInt8,m:UInt16|UInt8,accumulator:Bool=false)-instance-method">
+      <div class="signature">
+        
+        def <strong>rol</strong>(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = <span class="n">false</span>)
+
+        <a class="method-permalink" href="#rol%28m_value%3AUInt8%2Cm%3AUInt16%7CUInt8%2Caccumulator%3ABool%3Dfalse%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Rotate Left</p>
+<p>ROL shifts all bits left one position.
+The Carry is shifted into bit 0 and the original bit 7 is shifted into the Carry.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/bitwise_instructions.cr#L59" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ror(m_value:UInt8,m:UInt16|UInt8,accumulator:Bool=false)-instance-method">
+      <div class="signature">
+        
+        def <strong>ror</strong>(m_value : UInt8, m : UInt16 | UInt8, accumulator : Bool = <span class="n">false</span>)
+
+        <a class="method-permalink" href="#ror%28m_value%3AUInt8%2Cm%3AUInt16%7CUInt8%2Caccumulator%3ABool%3Dfalse%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Rotate Right</p>
+<p>ROR shifts all bits right one position.
+The Carry is shifted into bit 7 and the original bit 0 is shifted into the Carry.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/bitwise_instructions.cr#L79" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rti-instance-method">
+      <div class="signature">
+        
+        def <strong>rti</strong>
+
+        <a class="method-permalink" href="#rti-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Return from Interrupt</p>
+<p>RTI retrieves the Processor Status byte and Program Counter from the stack in that order. Interrupts push the program counter first and then the processor status.</p>
+<p>Unlike RTS, the return address on the stack is the actual address rather than the address-1.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/jump_instructions.cr#L38" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rts-instance-method">
+      <div class="signature">
+        
+        def <strong>rts</strong>
+
+        <a class="method-permalink" href="#rts-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Return to Saved</p>
+<p>RTS pulls the top two bytes off the stack (low byte first) and transfers them to the program counter. The program counter is incremented by one and then execution proceeds from there.</p>
+<p>RTS is typically used in combination with a <code><a href="CPU.html#jsr%28address%3AUInt16%29-instance-method">CPU#jsr</a></code> which saves the return address-1 to the stack.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/jump_instructions.cr#L27" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="run_instruction-instance-method">
+      <div class="signature">
+        
+        def <strong>run_instruction</strong>
+
+        <a class="method-permalink" href="#run_instruction-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Runs the current value of <code><a href="CPU.html#program_counter%3AUInt16-instance-method">CPU#program_counter</a></code>'s location in memory as an instruction</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions.cr#L192" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="sbc(m_value:UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>sbc</strong>(m_value : UInt8)
+
+        <a class="method-permalink" href="#sbc%28m_value%3AUInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Subtract with Carry</p>
+<p>SBC behavior depends on the state of the <code><a href="CPU/Flags.html#DecimalMode">CPU::Flags::DecimalMode</a></code> flag. In decimal mode, the values upon which the subtraction is performed are interpreted as packed BCD (Binary Coded Decimal).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/math_instructions.cr#L24" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="sec-instance-method">
+      <div class="signature">
+        
+        def <strong>sec</strong>
+
+        <a class="method-permalink" href="#sec-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Set Carry</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/flag_instructions.cr#L8" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="sed-instance-method">
+      <div class="signature">
+        
+        def <strong>sed</strong>
+
+        <a class="method-permalink" href="#sed-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Set Decimal</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/flag_instructions.cr#L28" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="sei-instance-method">
+      <div class="signature">
+        
+        def <strong>sei</strong>
+
+        <a class="method-permalink" href="#sei-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Set Interrupt</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/flag_instructions.cr#L18" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="set_flag(flag:Flags,set:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>set_flag</strong>(flag : <a href="CPU/Flags.html">Flags</a>, set : Bool)
+
+        <a class="method-permalink" href="#set_flag%28flag%3AFlags%2Cset%3ABool%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Sets the value of a bit in <code><a href="CPU.html#flags%3AUInt8-instance-method">#flags</a></code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L337" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="sta(m:UInt16|UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>sta</strong>(m : UInt16 | UInt8)
+
+        <a class="method-permalink" href="#sta%28m%3AUInt16%7CUInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Store Accumulator</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/memory_instructions.cr#L31" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="stack_pointer:UInt8-instance-method">
+      <div class="signature">
+        
+        def <strong>stack_pointer</strong> : UInt8
+
+        <a class="method-permalink" href="#stack_pointer%3AUInt8-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The 8-bit stack pointer which points to the current position in the Stack.</p>
+<p>The stack ranges from 0x100 to 0x1FF, starting at 0x1FF</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L198" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="step(end_on_tight_loop:Bool=true)-instance-method">
+      <div class="signature">
+        
+        def <strong>step</strong>(end_on_tight_loop : Bool = <span class="n">true</span>)
+
+        <a class="method-permalink" href="#step%28end_on_tight_loop%3ABool%3Dtrue%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Runs the next instruction</p>
+<p>if <code>end_on_tight_loop</code> is <code>true</code>, it will not step if the current instruction sets the <code><a href="CPU.html#program_counter%3AUInt16-instance-method">#program_counter</a></code> to itself, creating a tight loop</p>
+<p><span class="flag purple">NOTE</span>  A real 6502 does not end on tight loops, this is only used to ensure that a program doesn't run forever</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L247" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="stp-instance-method">
+      <div class="signature">
+        
+        def <strong>stp</strong>
+
+        <a class="method-permalink" href="#stp-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Stops any active running <code><a href="CPU.html#execute%28end_on_tight_loop%3ABool%3Dtrue%2Creset%3ABool%3Dtrue%29-instance-method">CPU#execute</a></code></p>
+<p>When used with <code>CPU#execute(reset: false)</code>, it can act as a way to pause</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/custom_instructions.cr#L51" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="stx(m:UInt16|UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>stx</strong>(m : UInt16 | UInt8)
+
+        <a class="method-permalink" href="#stx%28m%3AUInt16%7CUInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Store X Register</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/memory_instructions.cr#L36" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="sty(m:UInt16|UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>sty</strong>(m : UInt16 | UInt8)
+
+        <a class="method-permalink" href="#sty%28m%3AUInt16%7CUInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Store Y Register</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/memory_instructions.cr#L41" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="tax-instance-method">
+      <div class="signature">
+        
+        def <strong>tax</strong>
+
+        <a class="method-permalink" href="#tax-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Transfer A to X</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/register_instructions.cr#L5" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="tay-instance-method">
+      <div class="signature">
+        
+        def <strong>tay</strong>
+
+        <a class="method-permalink" href="#tay-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <pre><code class="language-crystal"><span class="t">Transfer</span> <span class="t">A</span> to <span class="t">Y</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/register_instructions.cr#L33" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="tsx-instance-method">
+      <div class="signature">
+        
+        def <strong>tsx</strong>
+
+        <a class="method-permalink" href="#tsx-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Transfer Stack Pointer to X</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/stack_instructions.cr#L19" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="txa-instance-method">
+      <div class="signature">
+        
+        def <strong>txa</strong>
+
+        <a class="method-permalink" href="#txa-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <pre><code class="language-crystal"><span class="t">Tranfer</span> <span class="t">X</span> to <span class="t">A</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/register_instructions.cr#L12" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="txs-instance-method">
+      <div class="signature">
+        
+        def <strong>txs</strong>
+
+        <a class="method-permalink" href="#txs-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <pre><code class="language-crystal"><span class="t">Transfer</span> <span class="t">X</span> to <span class="t">Stack</span> <span class="t">Pointer</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/stack_instructions.cr#L40" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="tya-instance-method">
+      <div class="signature">
+        
+        def <strong>tya</strong>
+
+        <a class="method-permalink" href="#tya-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <pre><code class="language-crystal"><span class="t">Transfer</span> <span class="t">Y</span> to <span class="t">A</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/instructions/register_instructions.cr#L40" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="x_index:UInt8-instance-method">
+      <div class="signature">
+        
+        def <strong>x_index</strong> : UInt8
+
+        <a class="method-permalink" href="#x_index%3AUInt8-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The 8-bit x index register</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L192" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="y_index:UInt8-instance-method">
+      <div class="signature">
+        
+        def <strong>y_index</strong> : UInt8
+
+        <a class="method-permalink" href="#y_index%3AUInt8-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The 8-bit y index register</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/6502.cr#L194" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+</div>
+
+</body>
+</html>

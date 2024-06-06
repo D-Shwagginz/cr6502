@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.11.2">
+<meta name="crystal_docs.project_version" content="master">
+<meta name="crystal_docs.project_name" content="cr6502">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="cr6502">
+  <title>CPU::AddressModes - cr6502 master</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          cr6502
+        </a>
+      </h1>
+
+      <span class="project-version">
+        master
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="cr6502/CPU" data-name="cpu">
+      <a href="../CPU.html">CPU</a>
+      
+        <ul>
+  
+  <li class=" current" data-id="cr6502/CPU/AddressModes" data-name="cpu::addressmodes">
+      <a href="../CPU/AddressModes.html">AddressModes</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/ASMException" data-name="cpu::asmexception">
+      <a href="../CPU/ASMException.html">ASMException</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/Flags" data-name="cpu::flags">
+      <a href="../CPU/Flags.html">Flags</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/LineParsingException" data-name="cpu::lineparsingexception">
+      <a href="../CPU/LineParsingException.html">LineParsingException</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/Scanner" data-name="cpu::scanner">
+      <a href="../CPU/Scanner.html">Scanner</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/ScannerException" data-name="cpu::scannerexception">
+      <a href="../CPU/ScannerException.html">ScannerException</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/Token" data-name="cpu::token">
+      <a href="../CPU/Token.html">Token</a>
+      
+    </li>
+  
+  <li class=" " data-id="cr6502/CPU/TokenType" data-name="cpu::tokentype">
+      <a href="../CPU/TokenType.html">TokenType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">enum</span> CPU::<wbr>AddressModes
+
+</h1>
+
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>The modes of addressing</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/addressing.cr#L3" target="_blank">
+        cr6502/addressing.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+  
+    <h2>
+      <a id="enum-members" class="anchor" href="#enum-members">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Enum Members
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="Accumulator">
+        <strong>Accumulator</strong> = <code><span class="n">0</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>There are a number of &quot;atomic read/modify/write&quot; instructions which can address EITHER Memory OR the Accumulator (A)</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="Immediate">
+        <strong>Immediate</strong> = <code><span class="n">1</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>A better name for this mode might be Immediate Value as no &quot;addressing&quot; actually takes place.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="ZeroPage">
+        <strong>ZeroPage</strong> = <code><span class="n">2</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>Much like Absolute Addressing, but can only address the first 256 (0..255) bytes of memory.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="ZeroPageX">
+        <strong>ZeroPageX</strong> = <code><span class="n">3</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>In Zero-Page Addressing the destination address is fixed by the programmer (or assembler) at assembly time.
+By using the hard-coded address as a base, and <code><a href="../CPU.html#x_index%3AUInt8-instance-method">CPU#x_index</a></code> as an Index, a more dynamic addressing system can be implemented.
+With Zero-Page, only the first 256 (0..255) bytes of memory may be addressed. So if the result of Base+<code><a href="../CPU.html#x_index%3AUInt8-instance-method">CPU#x_index</a></code> is greater than $FF, wrapping will occur.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="ZeroPageY">
+        <strong>ZeroPageY</strong> = <code><span class="n">4</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>In Zero-Page Addressing the destination address is fixed by the programmer (or assembler) at assembly time.
+By using the hard-coded address as a base, and <code><a href="../CPU.html#y_index%3AUInt8-instance-method">CPU#y_index</a></code> as an Index, a more dynamic addressing system can be implemented.
+With Zero-Page, only the first 256 (0..255) bytes of memory may be addressed. So if the result of Base+<code><a href="../CPU.html#y_index%3AUInt8-instance-method">CPU#y_index</a></code> is greater than $FF, wrapping will occur.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="Absolute">
+        <strong>Absolute</strong> = <code><span class="n">5</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>Read a value from a 16-bit address
+Remember without special external hardware for paging, the 6502 only has a maximum of 64K of address space available - so 16-bits is enough to address ANY byte of memory.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="AbsoluteX">
+        <strong>AbsoluteX</strong> = <code><span class="n">6</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>In Absolute Addressing the destination address is fixed by the programmer (or assembler) at assembly time.
+By using the hard-coded address as a base, and <code><a href="../CPU.html#x_index%3AUInt8-instance-method">CPU#x_index</a></code> as an Index, a more dynamic addressing system can be implemented.
+If the result of Base+<code><a href="../CPU.html#x_index%3AUInt8-instance-method">CPU#x_index</a></code> is greater than $FFFF, wrapping will occur.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="AbsoluteY">
+        <strong>AbsoluteY</strong> = <code><span class="n">7</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>In Absolute Addressing the destination address is fixed by the programmer (or assembler) at assembly time.
+By using the hard-coded address as a base, and <code><a href="../CPU.html#y_index%3AUInt8-instance-method">CPU#y_index</a></code> as an Index, a more dynamic addressing system can be implemented.
+If the result of Base+<code><a href="../CPU.html#y_index%3AUInt8-instance-method">CPU#y_index</a></code> is greater than $FFFF, wrapping will occur.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="Indirect">
+        <strong>Indirect</strong> = <code><span class="n">8</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>With this instruction, the 8-but address (location) supplied by the programmer is considered to be a Zero-Page address, that is, an address in the first 256 (0..255) bytes of memory.
+The content of this Zero-Page address must contain the low 8-bits of a memory address
+The following byte (the contents of address+1) must contain the upper 8-bits of a memory address
+Once this memory address has been read from the Zero-Page location (specified by the programmer), this calculated memory address is then examined, and it's contents are returned.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="IndirectX">
+        <strong>IndirectX</strong> = <code><span class="n">9</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>This addressing mode is only available with X.
+Much like Indirect Addressing, but the contents of the index register is added to the Zero-Page address (location)
+If Base_Location+Index is greater than $FF, wrapping will occur.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="IndirectY">
+        <strong>IndirectY</strong> = <code><span class="n">10</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>This addressing mode is only available with Y.
+Much like Indexed Addressing, but the contents of the index register is added to the Base_Location after it is read from Zero-Page memory.
+If Base_Location+Index is greater than $FFFF, wrapping will occur.</p>
+      </dd>
+      
+    
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#absolute%3F-instance-method" class="signature"><strong>#absolute?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#absolute_x%3F-instance-method" class="signature"><strong>#absolute_x?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#absolute_y%3F-instance-method" class="signature"><strong>#absolute_y?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#accumulator%3F-instance-method" class="signature"><strong>#accumulator?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#immediate%3F-instance-method" class="signature"><strong>#immediate?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#indirect%3F-instance-method" class="signature"><strong>#indirect?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#indirect_x%3F-instance-method" class="signature"><strong>#indirect_x?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#indirect_y%3F-instance-method" class="signature"><strong>#indirect_y?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#zero_page%3F-instance-method" class="signature"><strong>#zero_page?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#zero_page_x%3F-instance-method" class="signature"><strong>#zero_page_x?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#zero_page_y%3F-instance-method" class="signature"><strong>#zero_page_y?</strong></a>
+        
+      </li>
+    
+  </ul>
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="absolute?-instance-method">
+      <div class="signature">
+        
+        def <strong>absolute?</strong>
+
+        <a class="method-permalink" href="#absolute%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/addressing.cr#L20" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="absolute_x?-instance-method">
+      <div class="signature">
+        
+        def <strong>absolute_x?</strong>
+
+        <a class="method-permalink" href="#absolute_x%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/addressing.cr#L24" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="absolute_y?-instance-method">
+      <div class="signature">
+        
+        def <strong>absolute_y?</strong>
+
+        <a class="method-permalink" href="#absolute_y%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/addressing.cr#L28" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="accumulator?-instance-method">
+      <div class="signature">
+        
+        def <strong>accumulator?</strong>
+
+        <a class="method-permalink" href="#accumulator%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/addressing.cr#L5" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="immediate?-instance-method">
+      <div class="signature">
+        
+        def <strong>immediate?</strong>
+
+        <a class="method-permalink" href="#immediate%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/addressing.cr#L7" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="indirect?-instance-method">
+      <div class="signature">
+        
+        def <strong>indirect?</strong>
+
+        <a class="method-permalink" href="#indirect%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/addressing.cr#L33" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="indirect_x?-instance-method">
+      <div class="signature">
+        
+        def <strong>indirect_x?</strong>
+
+        <a class="method-permalink" href="#indirect_x%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/addressing.cr#L37" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="indirect_y?-instance-method">
+      <div class="signature">
+        
+        def <strong>indirect_y?</strong>
+
+        <a class="method-permalink" href="#indirect_y%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/addressing.cr#L41" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="zero_page?-instance-method">
+      <div class="signature">
+        
+        def <strong>zero_page?</strong>
+
+        <a class="method-permalink" href="#zero_page%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/addressing.cr#L9" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="zero_page_x?-instance-method">
+      <div class="signature">
+        
+        def <strong>zero_page_x?</strong>
+
+        <a class="method-permalink" href="#zero_page_x%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/addressing.cr#L13" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="zero_page_y?-instance-method">
+      <div class="signature">
+        
+        def <strong>zero_page_y?</strong>
+
+        <a class="method-permalink" href="#zero_page_y%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D-Shwagginz/cr6502/blob/a4e100644c7227e63a2483807c787806c2eadbe9/src/cr6502/addressing.cr#L17" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+</div>
+
+</body>
+</html>
