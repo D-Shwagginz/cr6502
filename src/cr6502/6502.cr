@@ -1,4 +1,13 @@
-# The 6502 CPU
+# ## The 6502 CPU
+#
+# ### Assembly:
+# The main powerhouse of the emulator is the `CPU#load_asm(code : String)` method.
+# 
+# The method allows you to type in 6502 asm code and run it through Crystal.
+# 
+# The assembler has the ability to use labels as well as a few custom instructions
+# 
+# To see all of the custom instructions, please see [custom_functions.cr]
 class CPU
   # Vector address for RESET
   RES_LOCATION = 0xfffc_u16

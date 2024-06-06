@@ -72,11 +72,11 @@ class CPU
   end
 
   # Loads 6502 assembly instructions
-  # 
+  #
   # Works with labels `label:`
-  # 
+  #
   # the `resvec:` label will set the value at `RES_LOCATION` to the label's memory location
-  # 
+  #
   # the `brkvec:` label will set the value at `BRK_LOCATION` to the label's memory location
   def load_asm(code : String)
     code.each_line.with_index do |line, line_number|
@@ -94,13 +94,13 @@ class CPU
           elsif label_name == "brkvec"
             poke(BRK_LOCATION, @program_counter)
           else
-          label_i = @labels.index { |l| l[0] == label_name }
-          if label_i
-            @labels[label_i] = {label_name, (@program_counter <= 255 ? @program_counter.to_u8 : @program_counter.to_u16)}
-          else
-            @labels << {label_name, (@program_counter <= 255 ? @program_counter.to_u8 : @program_counter.to_u16)}
+            label_i = @labels.index { |l| l[0] == label_name }
+            if label_i
+              @labels[label_i] = {label_name, (@program_counter <= 255 ? @program_counter.to_u8 : @program_counter.to_u16)}
+            else
+              @labels << {label_name, (@program_counter <= 255 ? @program_counter.to_u8 : @program_counter.to_u16)}
+            end
           end
-        end
         end
 
         current_index += 1
