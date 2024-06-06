@@ -46,7 +46,7 @@ class CPU
   end
 
   # Stops any active running `CPU#execute`
-  # 
+  #
   # When used with `CPU#execute(reset: false)`, it can act as a way to pause
   def stp
     @stop_exec = true

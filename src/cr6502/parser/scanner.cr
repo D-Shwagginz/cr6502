@@ -3,7 +3,7 @@ class CPU
   class Scanner
     @source : String
     property tokens : Array(Token) = [] of Token
-    property labels : Array(Tuple(String, UInt8 | UInt16))
+    property labels : Array(Tuple(String, UInt8 | UInt16, Bool))
 
     @start = 0
     @current = 0
@@ -11,18 +11,18 @@ class CPU
     # 0 = decimal, 1 = hex, 2 = binary
     @current_number_type = 0
 
-    def initialize(@source : String, @line : Int32, @labels : Array(Tuple(String, Int)))
+    def initialize(@source : String, @line : Int32, @labels)
     end
 
     def is_at_end
       return @current >= @source.size - 1
     end
 
-    def scan_tokens
+    def scan_tokens(just_labels : Bool = false)
       @source = @source.strip
       until is_at_end
         @start = @current
-        scan_token
+        scan_token(just_labels)
       end
 
       @tokens << Token.new(TokenType::EOF, "")
@@ -56,53 +56,63 @@ class CPU
       return true
     end
 
-    def scan_token
-      if @source[0] == ';'
-        @current = @source.size - 1
-        return
-      end
-
-      if @source[-1] == ':'
-        @current = @source.size - 1
-        add_token(TokenType::Label)
-        return
-      end
-
-      c = advance
-      if @current_number_type != 0
-        case @current_number_type
-        when 1
-          hex
-        when 2
-          binary
+    def scan_token(just_labels : Bool)
+      if just_labels
+        if @source[-1] == ':'
+          @current = @source.size - 1
+          add_token(TokenType::Label)
+          return
+        else
+          advance
+        end
+      else
+        if @source[0] == ';'
+          @current = @source.size - 1
+          return
         end
 
-        @current_number_type = 0
-      else
-        case c
-        when ';'; @current = @source.size - 1
-        when '('; add_token(TokenType::LeftParen)
-        when ')'; add_token(TokenType::RightParen)
-        when '$'; add_token(TokenType::Dollar)
-        @current_number_type = 1
-        when '%'; add_token(TokenType::Percent)
-        @current_number_type = 2
-        when '#'; add_token(TokenType::Hash)
-        when ','; add_token(TokenType::Comma)
-        when 'X'; add_token(TokenType::X)
-        when 'Y'; add_token(TokenType::Y)
-        when 'x'; add_token(TokenType::X)
-        when 'y'; add_token(TokenType::Y)
-        when 'A'; add_token(TokenType::A)
-        when 'a'; add_token(TokenType::A)
-        when ' '
+        if @source[-1] == ':'
+          @current = @source.size - 1
+          add_token(TokenType::Label)
+          return
+        end
+
+        c = advance
+        if @current_number_type != 0
+          case @current_number_type
+          when 1
+            hex
+          when 2
+            binary
+          end
+
+          @current_number_type = 0
         else
-          if c.ascii_number?
-            number
-          elsif is_alpha(c)
-            identifier
+          case c
+          when ';'; @current = @source.size - 1
+          when '('; add_token(TokenType::LeftParen)
+          when ')'; add_token(TokenType::RightParen)
+          when '$'; add_token(TokenType::Dollar)
+          @current_number_type = 1
+          when '%'; add_token(TokenType::Percent)
+          @current_number_type = 2
+          when '#'; add_token(TokenType::Hash)
+          when ','; add_token(TokenType::Comma)
+          when 'X'; add_token(TokenType::X)
+          when 'Y'; add_token(TokenType::Y)
+          when 'x'; add_token(TokenType::X)
+          when 'y'; add_token(TokenType::Y)
+          when 'A'; add_token(TokenType::A)
+          when 'a'; add_token(TokenType::A)
+          when ' '
           else
-            raise ScannerException.new("Unexpected character on line ##{@line}")
+            if c.ascii_number?
+              number
+            elsif is_alpha(c)
+              identifier
+            else
+              raise ScannerException.new("Unexpected character on line ##{@line}")
+            end
           end
         end
       end

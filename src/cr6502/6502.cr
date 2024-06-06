@@ -218,8 +218,8 @@ class CPU
   #
   # Used when calculating how long to sleep the CPU between instructions for a cycle accurate CPU
   @instruction_cycles : Int32 = 0
-  # The current array of label hashes
-  @labels = [] of {String, UInt8 | UInt16}
+  # The current array of labels with the name, value, and if it is has been parsed
+  @labels = [] of {String, UInt8 | UInt16, Bool}
   # Set to true when using the `CPU#stp` instruction. Stops any active execution
   @stop_exec = false
 

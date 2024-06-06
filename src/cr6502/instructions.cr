@@ -13,14 +13,14 @@ class CPU
 
   # List of instructions sorted by its opcode
   #
-  # Format is {"InstructionName", opcode, cycle length}
+  # Format is {"InstructionName", opcode, cycle length, byte length}
   INSTRUCTIONS = [
     {"BRK", 0x00_u8, 7},
     {"ORAindx", 0x01_u8, 6},
     {"ORAzpg", 0x05_u8, 3},
     {"ASLzpg", 0x06_u8, 5},
     {"PHP", 0x08_u8, 3},
-    {"ORAi", 0x09_u8, 2},
+    {"ORAi", 0x09_u8, 2, 2},
     {"ASLa", 0x0a_u8, 2},
     {"ORAabs", 0x0d_u8, 4},
     {"ASLabs", 0x0e_u8, 6},
@@ -172,6 +172,14 @@ class CPU
     {"PRTabs", 0x03_u8, 3},
     {"LOG", 0x04_u8, 10},
     {"STP", 0x07_u8, 2},
+    {"BCClabel", 0x0b_u8, 2},
+    {"BCSlabel", 0x1b_u8, 2},
+    {"BEQlabel", 0x2b_u8, 2},
+    {"BMIlabel", 0x3b_u8, 2},
+    {"BNElabel", 0x4b_u8, 2},
+    {"BPLlabel", 0x5b_u8, 2},
+    {"BVClabel", 0x6b_u8, 2},
+    {"BVSlabel", 0x7b_u8, 2},
   ]
 
   # Adds an instruction, given it's opcode, into the current location in memory of the `CPU#program_counter` and increments the `CPU#program_counter` by the byte length of the given hex
@@ -206,12 +214,13 @@ class CPU
           @instruction_cycles += (@program_counter - @program_counter//255*255 + ((address + @x_index) & 0xffff)) > 255 ? 1 : 0
           address = peek(@program_counter, true)
           @program_counter += 2
-        elsif i[0].includes?("abs") || i[0].includes?("JSR") || i[0].includes?("JMPind")
+        elsif i[0].includes?("abs") || i[0].includes?("JSR") || i[0].includes?("JMPind") || i[0].includes?("label")
           address = peek(@program_counter, true)
           @program_counter += 2
         elsif i[0].size > 3
           @program_counter += 1
         end
+
         case i[0]
         when "BRK"    ; brk
         when "ORAindx"; ora(peek(get_indx(address)).to_u8)
@@ -364,10 +373,18 @@ class CPU
         when "SBCabsx"; sbc(peek((address + @x_index) & 0xffff).to_u8)
         when "INCabsx"; inc(peek((address + @x_index) & 0xffff).to_u8, (address + @x_index) & 0xffff)
           # Custom
-        when "PRTzpg"; prt(address.to_u8)
-        when "PRTabs"; prt(address.to_u16)
-        when "LOG"   ; log()
-        when "STP"   ; stp()
+        when "PRTzpg"  ; prt(address.to_u8)
+        when "PRTabs"  ; prt(address.to_u16)
+        when "LOG"     ; log()
+        when "STP"     ; stp()
+        when "BCClabel"; bcc(address.to_u16)
+        when "BCSlabel"; bcs(address.to_u16)
+        when "BEQlabel"; beq(address.to_u16)
+        when "BMIlabel"; bmi(address.to_u16)
+        when "BNElabel"; bne(address.to_u16)
+        when "BPLlabel"; bpl(address.to_u16)
+        when "BVClabel"; bvc(address.to_u16)
+        when "BVSlabel"; bvs(address.to_u16)
         end
       end
     end

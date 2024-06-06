@@ -1,12 +1,16 @@
-name: cr6502
+name: multiplication
 version: 0.1.0
 
 authors:
   - D. Shwagginz <93965353+D-Shwagginz@users.noreply.github.com>
 
 targets:
+  multiplication:
+    main: src/multiplication.cr
+
+dependencies:
   cr6502:
-    main: src/cr6502.cr
+    path: ../../
 
 crystal: '>= 1.12.1'
 

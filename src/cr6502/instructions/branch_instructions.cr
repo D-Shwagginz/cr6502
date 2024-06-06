@@ -7,9 +7,13 @@ class CPU
   # A branch requires 3 cycles if taken, plus 1 cycle if the branch cross a page boundary.
 
   # Branch on Plus
-  def bpl(m_value : UInt8)
+  def bpl(m_value : UInt8 | UInt16)
     if get_flag(Flags::Negative) == false
-      u_m_value = (m_value - 128).to_i8
+      if typeof(m_value) == UInt16
+        u_m_value = m_value.to_i - @program_counter
+      else
+        u_m_value = (m_value.to_i16 - 128).to_i8
+      end
 
       page_difference = (@program_counter.to_i - @program_counter.to_i//255*255 + u_m_value.to_i)
       @instruction_cycles += page_difference > 255 || page_difference < 0 ? 2 : 1
@@ -18,9 +22,13 @@ class CPU
   end
 
   # Branch on Overflow Clear
-  def bvc(m_value : UInt8)
+  def bvc(m_value : UInt8 | UInt16)
     if get_flag(Flags::Overflow) == false
-      u_m_value = (m_value - 128).to_i8
+      if typeof(m_value) == UInt16
+        u_m_value = m_value.to_i - @program_counter
+      else
+        u_m_value = (m_value.to_i16 - 128).to_i8
+      end
 
       page_difference = (@program_counter.to_i - @program_counter.to_i//255*255 + u_m_value.to_i)
       @instruction_cycles += page_difference > 255 || page_difference < 0 ? 2 : 1
@@ -29,9 +37,13 @@ class CPU
   end
 
   # Branch on Carry Clear
-  def bcc(m_value : Int)
+  def bcc(m_value : UInt8 | UInt16)
     if get_flag(Flags::Carry) == false
-      u_m_value = (m_value - 128).to_i8
+      if typeof(m_value) == UInt16
+        u_m_value = m_value.to_i - @program_counter
+      else
+        u_m_value = (m_value.to_i16 - 128).to_i8
+      end
 
       page_difference = (@program_counter.to_i - @program_counter.to_i//255*255 + u_m_value.to_i)
       @instruction_cycles += page_difference > 255 || page_difference < 0 ? 2 : 1
@@ -40,9 +52,13 @@ class CPU
   end
 
   # Branch on Not Equal
-  def bne(m_value : Int)
+  def bne(m_value : UInt8 | UInt16)
     if get_flag(Flags::Zero) == false
-      u_m_value = (m_value - 128).to_i8
+      if typeof(m_value) == UInt16
+        u_m_value = m_value.to_i - @program_counter
+      else
+        u_m_value = (m_value.to_i16 - 128).to_i8
+      end
 
       page_difference = (@program_counter.to_i - @program_counter.to_i//255*255 + u_m_value.to_i)
       @instruction_cycles += page_difference > 255 || page_difference < 0 ? 2 : 1
@@ -51,9 +67,13 @@ class CPU
   end
 
   # Branch on Minus
-  def bmi(m_value : UInt8)
+  def bmi(m_value : UInt8 | UInt16)
     if get_flag(Flags::Negative) == true
-      u_m_value = (m_value - 128).to_i8
+      if typeof(m_value) == UInt16
+        u_m_value = m_value.to_i - @program_counter
+      else
+        u_m_value = (m_value.to_i16 - 128).to_i8
+      end
 
       page_difference = (@program_counter.to_i - @program_counter.to_i//255*255 + u_m_value.to_i)
       @instruction_cycles += page_difference > 255 || page_difference < 0 ? 2 : 1
@@ -62,9 +82,13 @@ class CPU
   end
 
   # Branch on Overflow Set
-  def bvs(m_value : Int)
+  def bvs(m_value : UInt8 | UInt16)
     if get_flag(Flags::Overflow) == true
-      u_m_value = (m_value - 128).to_i8
+      if typeof(m_value) == UInt16
+        u_m_value = m_value.to_i - @program_counter
+      else
+        u_m_value = (m_value.to_i16 - 128).to_i8
+      end
 
       page_difference = (@program_counter.to_i - @program_counter.to_i//255*255 + u_m_value.to_i)
       @instruction_cycles += page_difference > 255 || page_difference < 0 ? 2 : 1
@@ -73,9 +97,13 @@ class CPU
   end
 
   # Branch on Carry Set
-  def bcs(m_value : Int)
+  def bcs(m_value : UInt8 | UInt16)
     if get_flag(Flags::Carry) == true
-      u_m_value = (m_value - 128).to_i8
+      if typeof(m_value) == UInt16
+        u_m_value = m_value.to_i - @program_counter
+      else
+        u_m_value = (m_value.to_i16 - 128).to_i8
+      end
 
       page_difference = (@program_counter.to_i - @program_counter.to_i//255*255 + u_m_value.to_i)
       @instruction_cycles += page_difference > 255 || page_difference < 0 ? 2 : 1
@@ -84,9 +112,13 @@ class CPU
   end
 
   # Branch on Equal
-  def beq(m_value : Int)
+  def beq(m_value : UInt8 | UInt16)
     if get_flag(Flags::Zero) == true
-      u_m_value = (m_value - 128).to_i8
+      if typeof(m_value) == UInt16
+        u_m_value = m_value.to_i - @program_counter
+      else
+        u_m_value = (m_value.to_i16 - 128).to_i8
+      end
 
       page_difference = (@program_counter.to_i - @program_counter.to_i//255*255 + u_m_value.to_i)
       @instruction_cycles += page_difference > 255 || page_difference < 0 ? 2 : 1

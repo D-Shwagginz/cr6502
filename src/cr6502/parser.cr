@@ -86,32 +86,38 @@ class CPU
   def load_asm(code : String, start_location : UInt16 = peek(RES_LOCATION, true).to_u16)
     @program_counter = start_location
 
+    # Scan Labels
     code.each_line.with_index do |line, line_number|
       current_index = 0
 
-      # Scan Labels
       scanner = Scanner.new(line, line_number, @labels)
-      scanner.scan_tokens
+      scanner.scan_tokens(true)
 
       until current_index == scanner.tokens.size - 1
         if scanner.tokens[current_index].type == TokenType::Label
           label_name = scanner.tokens[current_index].lexeme.rchop
-          if label_name == "resvec"
+          if label_name.downcase == "resvec"
             poke(RES_LOCATION, @program_counter)
-          elsif label_name == "brkvec"
+          elsif label_name.downcase == "brkvec"
             poke(BRK_LOCATION, @program_counter)
           else
             label_i = @labels.index { |l| l[0] == label_name }
-            if label_i
-              @labels[label_i] = {label_name, (@program_counter <= 255 ? @program_counter.to_u8 : @program_counter.to_u16)}
-            else
-              @labels << {label_name, (@program_counter <= 255 ? @program_counter.to_u8 : @program_counter.to_u16)}
+            if !label_i
+              @labels << {label_name, 0_u8, false}
             end
           end
         end
 
         current_index += 1
       end
+    end
+
+    @program_counter = start_location
+
+    new_label_found = false
+
+    code.each_line.with_index do |line, line_number|
+      break if new_label_found
       current_index = 0
       scanner = Scanner.new(line, line_number, @labels)
       scanner.scan_tokens
@@ -119,6 +125,7 @@ class CPU
       until current_index == scanner.tokens.size - 1
         address_mode = nil
         address : Int32 | UInt16 | UInt8 = -1
+        force_address_16bit = false
 
         case scanner.tokens[current_index].type
         # -------------------------- #
@@ -203,36 +210,84 @@ class CPU
 
         when TokenType::BPL
           current_index += 1
-          parse_address
-          add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BPL" }[1])
+          if x = @labels.index { |l| l[0] == scanner.tokens[current_index].lexeme }
+            address = @labels[x][1].to_u16
+            force_address_16bit = true
+            add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BPLlabel" }[1])
+          else
+            parse_address
+            add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BPL" }[1])
+          end
         when TokenType::BVC
           current_index += 1
-          parse_address
-          add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BVC" }[1])
+          if x = @labels.index { |l| l[0] == scanner.tokens[current_index].lexeme }
+            address = @labels[x][1].to_u16
+            force_address_16bit = true
+            add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BCXlabel" }[1])
+          else
+            parse_address
+            add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BCX" }[1])
+          end
         when TokenType::BCC
           current_index += 1
-          parse_address
-          add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BCC" }[1])
+          if x = @labels.index { |l| l[0] == scanner.tokens[current_index].lexeme }
+            address = @labels[x][1].to_u16
+            force_address_16bit = true
+            add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BCClabel" }[1])
+          else
+            parse_address
+            add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BCC" }[1])
+          end
         when TokenType::BNE
           current_index += 1
-          parse_address
-          add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BNE" }[1])
+          if x = @labels.index { |l| l[0] == scanner.tokens[current_index].lexeme }
+            address = @labels[x][1].to_u16
+            force_address_16bit = true
+            add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BNElabel" }[1])
+          else
+            parse_address
+            add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BNE" }[1])
+          end
         when TokenType::BMI
           current_index += 1
-          parse_address
-          add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BMI" }[1])
+          if x = @labels.index { |l| l[0] == scanner.tokens[current_index].lexeme }
+            address = @labels[x][1].to_u16
+            force_address_16bit = true
+            add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BMIlabel" }[1])
+          else
+            parse_address
+            add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BMI" }[1])
+          end
         when TokenType::BVS
           current_index += 1
-          parse_address
-          add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BVS" }[1])
+          if x = @labels.index { |l| l[0] == scanner.tokens[current_index].lexeme }
+            address = @labels[x][1].to_u16
+            force_address_16bit = true
+            add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BVSlabel" }[1])
+          else
+            parse_address
+            add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BVS" }[1])
+          end
         when TokenType::BCS
           current_index += 1
-          parse_address
-          add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BCS" }[1])
+          if x = @labels.index { |l| l[0] == scanner.tokens[current_index].lexeme }
+            address = @labels[x][1].to_u16
+            force_address_16bit = true
+            add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BCSlabel" }[1])
+          else
+            parse_address
+            add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BCS" }[1])
+          end
         when TokenType::BEQ
           current_index += 1
-          parse_address
-          add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BEQ" }[1])
+          if x = @labels.index { |l| l[0] == scanner.tokens[current_index].lexeme }
+            address = @labels[x][1].to_u16
+            force_address_16bit = true
+            add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BEQlabel" }[1])
+          else
+            parse_address
+            add_instruction(INSTRUCTIONS.find! { |i| i[0] == "BEQ" }[1])
+          end
           # -------------------------- #
           # -- COMPARE INSTRUCTIONS -- #
           # -------------------------- #
@@ -445,19 +500,33 @@ class CPU
           raise ScannerException.new("Invalid command \"#{line}\" on line ##{line_number}")
         end
 
+        @labels.each.with_index do |label, i|
+          if "#{label[0]}:" == scanner.tokens[current_index].lexeme && !label[2]
+            @labels[i] = {scanner.tokens[current_index].lexeme.rchop, @program_counter, true}
+            new_label_found = true
+          end
+        end
+
         if address >= 0
-          if address <= 255
-            poke(@program_counter, address.to_u8)
-            @program_counter += 1
-          else
+          if force_address_16bit
             poke(@program_counter, address.to_u16)
             @program_counter += 2
+          else
+            if address <= 255
+              poke(@program_counter, address.to_u8)
+              @program_counter += 1
+            else
+              poke(@program_counter, address.to_u16)
+              @program_counter += 2
+            end
           end
         end
 
         current_index += 1
       end
     end
+
+    load_asm(code, start_location) if new_label_found
 
     @program_counter = peek(RES_LOCATION, true).to_u16
   end

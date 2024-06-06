@@ -60,7 +60,7 @@ class CPU
     # Custom
     "PRT" => TokenType::PRT,
     "LOG" => TokenType::LOG,
-    "STP" => TokenType::STP
+    "STP" => TokenType::STP,
   }
 
   # The types of tokens, used when parsing
