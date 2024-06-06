@@ -78,7 +78,12 @@ class CPU
   # the `resvec:` label will set the value at `RES_LOCATION` to the label's memory location
   #
   # the `brkvec:` label will set the value at `BRK_LOCATION` to the label's memory location
-  def load_asm(code : String)
+  # 
+  # You can also manually set the starting location to write the instructions at.
+  # Useful for appending or editing code
+  def load_asm(code : String, start_location : UInt16 = peek(RES_LOCATION, true).to_u16)
+    @program_counter = start_location
+
     code.each_line.with_index do |line, line_number|
       current_index = 0
 
