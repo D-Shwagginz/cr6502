@@ -1,13 +1,15 @@
 # ## The 6502 CPU
 #
 # ### Assembly:
-# The main powerhouse of the emulator is the `CPU#load_asm(code : String)` method.
+# The main powerhouse of the emulator is the `CPU#load_asm()` method.
 #
 # The method allows you to type in 6502 asm code and run it through Crystal.<br>
 # The assembler has the ability to use labels as well as a few custom instructions<br>
+# It also uses a semicolon ';' for inline comments
 #
 # Example:
 # ```
+# ; Look at this cool comment!
 # cpu = CPU.new(1.0, 0x0600_u16, CPU::RES_LOCATION - 2)
 # cpu.load_asm("
 # lda #$14
@@ -70,7 +72,7 @@
 # In the above example, at compile time, `cpu.accumulator` is set to 0. It only gets changed at the runtime of the code.<br>
 # You can however achieve the hoped for effect by using multiple `CPU#load_asm` methods:
 #
-# # ```
+# ```
 # x = 0xa4_u8
 # cpu.load_asm("
 # lda ##{x}
@@ -89,43 +91,43 @@
 # to its original value, or to the value of a `resvec:`
 #
 # This means that all the instructions set by any previous `CPU#load_asm`'s will still be there in memory.
-# 
+#
 # To counteract this issue, ensure that a brk is set at the end of any code
-# 
+#
 # You can however "append" code by setting the `start_location` of `CPU#load_asm` manually
-# 
+#
 # Example
 # ```
 # cpu = CPU.new(1.0, 0x0600_u16, CPU::RES_LOCATION - 2)
-# 
+#
 # cpu.load_asm("
 # lda #01
 # ")
-# 
+#
 # # Code = a9 01 #
-# 
+#
 # cpu.load_asm(0x0603"
 # lda #01
 # ")
-# 
+#
 # # Code = a9 01 a9 01 #
 # ```
-# 
+#
 # You can also use `resvec:` to edit the default `CPU#program_counter` location when editing code
-# 
+#
 # Example
 # ```
 # cpu.load_asm("
 # lda #01
 # resvec:
 # ")
-# 
+#
 # # Code = a9 01 #
-# 
+#
 # cpu.load_asm("
 # lda #01
 # ")
-# 
+#
 # # Code = a9 01 a9 01 #
 # ```
 #
@@ -218,6 +220,8 @@ class CPU
   @instruction_cycles : Int32 = 0
   # The current array of label hashes
   @labels = [] of {String, UInt8 | UInt16}
+  # Set to true when using the `CPU#stp` instruction. Stops any active execution
+  @stop_exec = false
 
   # Creates a 6502 CPU
   #
@@ -256,11 +260,13 @@ class CPU
   # If `end_on_tight_loop` is `true`, it will not step if the current instruction sets the `program_counter` to itself, creating a tight loop
   #
   # NOTE: A real 6502 does not end on tight loops, this is only used to ensure that a program doesn't run forever
-  # 
+  #
   # If `reset` is true, it will set the `CPU#program_counter` to its original value. If `reset` is false, it simply continues the code
-  # from the last instruction. This is only really matters when `end_on_tight_loop` is true
-  # 
+  # from the last instruction. This is only really matters when `end_on_tight_loop` is true or when using `CPU#stp`
+  #
   def execute(end_on_tight_loop : Bool = true, reset : Bool = true)
+    @stop_exec = false
+
     @memory.pos = 0xfffc
     if reset
       @program_counter = @memory.read_bytes(UInt16, IO::ByteFormat::LittleEndian)
@@ -269,13 +275,13 @@ class CPU
     end
 
     if end_on_tight_loop
-      while @program_counter != @previous_program_counter
+      while @program_counter != @previous_program_counter && !@stop_exec
         sleep(1/@clock_cycle_mhz/1000000 * @instruction_cycles)
         @previous_program_counter = @program_counter
         run_instruction
       end
     else
-      while true
+      until @stop_exec
         sleep(1/@clock_cycle_mhz/1000000 * @instruction_cycles)
         run_instruction
       end

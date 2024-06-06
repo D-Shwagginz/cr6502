@@ -28,7 +28,7 @@ class CPU
     end
   end
 
-  #	Branch on Carry Clear
+  # Branch on Carry Clear
   def bcc(m_value : Int)
     if get_flag(Flags::Carry) == false
       u_m_value = (m_value - 128).to_i8
@@ -50,7 +50,7 @@ class CPU
     end
   end
 
-  #	Branch on Minus
+  # Branch on Minus
   def bmi(m_value : UInt8)
     if get_flag(Flags::Negative) == true
       u_m_value = (m_value - 128).to_i8
@@ -61,7 +61,7 @@ class CPU
     end
   end
 
-  #	Branch on Overflow Set
+  # Branch on Overflow Set
   def bvs(m_value : Int)
     if get_flag(Flags::Overflow) == true
       u_m_value = (m_value - 128).to_i8
@@ -72,7 +72,7 @@ class CPU
     end
   end
 
-  #	Branch on Carry Set
+  # Branch on Carry Set
   def bcs(m_value : Int)
     if get_flag(Flags::Carry) == true
       u_m_value = (m_value - 128).to_i8

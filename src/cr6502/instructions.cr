@@ -171,6 +171,7 @@ class CPU
     {"PRTzpg", 0x02_u8, 2},
     {"PRTabs", 0x03_u8, 3},
     {"LOG", 0x04_u8, 10},
+    {"STP", 0x07_u8, 2},
   ]
 
   # Adds an instruction, given it's opcode, into the current location in memory of the `CPU#program_counter` and increments the `CPU#program_counter` by the byte length of the given hex
@@ -366,6 +367,7 @@ class CPU
         when "PRTzpg"; prt(address.to_u8)
         when "PRTabs"; prt(address.to_u16)
         when "LOG"   ; log()
+        when "STP"   ; stp()
         end
       end
     end

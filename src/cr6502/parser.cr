@@ -73,12 +73,14 @@ class CPU
 
   # Loads 6502 assembly instructions
   #
+  # Uses ; for comments
+  #
   # Works with labels `label:`
   #
   # the `resvec:` label will set the value at `RES_LOCATION` to the label's memory location
   #
   # the `brkvec:` label will set the value at `BRK_LOCATION` to the label's memory location
-  # 
+  #
   # You can also manually set the starting location to write the instructions at.
   # Useful for appending or editing code
   def load_asm(code : String, start_location : UInt16 = peek(RES_LOCATION, true).to_u16)
@@ -437,6 +439,7 @@ class CPU
             add_instruction(INSTRUCTIONS.find! { |i| i[0] == "PRTabs" }[1])
           end
         when TokenType::LOG; add_instruction(INSTRUCTIONS.find! { |i| i[0] == "LOG" }[1])
+        when TokenType::STP; add_instruction(INSTRUCTIONS.find! { |i| i[0] == "STP" }[1])
         when TokenType::Label
         else
           raise ScannerException.new("Invalid command \"#{line}\" on line ##{line_number}")
